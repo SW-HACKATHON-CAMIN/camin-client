@@ -1,0 +1,44 @@
+.backBody{
+    background-color: #FF947A;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.loginTitle{
+    font-family: BM HANNA_TTF;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 36px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+
+    position: absolute; 
+    top: 16%; 
+    left: 10%; 
+}
+
+.loginText{
+    color: white;
+    font-family: Noto Sans KR;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    position: absolute;
+    top: 27%;
+    left: 10%;
+}
+
+.loginBlock{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    margin-left:-150px;
+    width: 300px;
+}
+
+
+

@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Reset } from "styled-reset";
 
@@ -56,7 +56,8 @@ function App() {
           <Route path="/admin/cafemenu" element={<CafeMenu />} />
           <Route path="/admin/updateseat" element={<UpdateSeat />} />
           {/* Common */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login  View={MyInfo} Menu={""}/>} >
+          </Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
