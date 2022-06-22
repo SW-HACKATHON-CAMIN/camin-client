@@ -45,7 +45,7 @@ function App() {
             }
           />
           <Route
-            path="/map"
+            path="/myinfo"
             element={<MainLayout View={MyInfo} Menu={"MyInfo"} />}
           />
           <Route path="/reserveseat" element={<ReserveSeat />} />
