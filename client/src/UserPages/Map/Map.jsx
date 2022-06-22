@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import "./Map.css";
-import "./header.css";
-import Form from "react-bootstrap/Form";
-//import InputGroup from 'react-bootstrap/InputGroup';
+import "./MapSearchBar.css";
 
 const { kakao } = window;
 
@@ -12,76 +10,60 @@ function Map() {
   const [longitude, setLongitude] = useState(126.570667);
 
   //고객이 입력한 검색어
-  const [inputLocation, setInputLocation] = useState(false);
+  const [inputLocation, setInputLocation] = useState("");
   const [isFirst, setIsFirst] = useState(false);
 
+  let watcherID = navigator.geolocation.watchPosition(function (position) {
+    setLatitude(position.coords.latitude);
+    setLongitude(position.coords.longitude);
+    setIsFirst(true);
+  });
 
-
-    var watcherID = navigator.geolocation.watchPosition(function (position) {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-      setIsFirst(true);
-    });
-
-
-    navigator.geolocation.clearWatch(watcherID); // 위치 갱신 그만 두기
-  
-
-  
+  navigator.geolocation.clearWatch(watcherID); // 위치 갱신 그만 두기
 
   useEffect(() => {
     const script = document.createElement("script");
 
-    // const script = document.createElement('script');
-
-    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=4a307bf7d0df4bfe8f341b351e753e52";
-    // script.async = true;
-  
-    // document.body.appendChild(script);
-
-    var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+    let mapContainer = document.getElementById("map"), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
         level: 3, // 지도의 확대 레벨
       };
 
-    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
     if (navigator.geolocation && !isFirst) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(function (position) {
-        var lat = position.coords.latitude, // 위도
+        let lat = position.coords.latitude, // 위도
           lon = position.coords.longitude; // 경도
 
-        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-          message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+        let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+          message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
 
         setIsFirst(true);
       });
-    } 
-    else if(navigator.geolocation && isFirst){
-       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-       navigator.geolocation.getCurrentPosition(function (position) {
-        var lat = latitude, // 위도
+    } else if (navigator.geolocation && isFirst) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(function (position) {
+        let lat = latitude, // 위도
           lon = longitude; // 경도
 
-        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
       });
-    }
-    else {
+    } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-      var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
+      let locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
         message = "geolocation을 사용할수 없어요..";
-
       displayMarker(locPosition, message);
     }
 
@@ -124,16 +106,16 @@ function Map() {
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, message) {
       // 마커를 생성합니다
-      var marker = new kakao.maps.Marker({
+      let marker = new kakao.maps.Marker({
         map: map,
         position: locPosition,
       });
 
-      var iwContent = message, // 인포윈도우에 표시할 내용
+      let iwContent = message, // 인포윈도우에 표시할 내용
         iwRemoveable = true;
 
       // 인포윈도우를 생성합니다
-      var infowindow = new kakao.maps.InfoWindow({
+      let infowindow = new kakao.maps.InfoWindow({
         content: iwContent,
         removable: iwRemoveable,
       });
@@ -144,41 +126,15 @@ function Map() {
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);
     }
-
-  // return () => {
-  //   document.body.removeChild(script);
-  // }
-  
   }, [latitude, longitude]);
-
 
   function onChangeLocation(e) {
     const script = document.createElement("script");
 
-    // const script = document.createElement('script');
-
-    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=4a307bf7d0df4bfe8f341b351e753e52&libraries=services";
-    // script.async = true;
-  
-    // document.body.appendChild(script);
-  
- 
     setInputLocation(e.target.value);
 
-    // // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-    // var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-
-    // var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    //     mapOption = {
-    //         center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-    //         level: 3 // 지도의 확대 레벨
-    //     };
-
-    // // 지도를 생성합니다
-    // var map = new kakao.maps.Map(mapContainer, mapOption);
-
     // 장소 검색 객체를 생성합니다
-    var ps = new kakao.maps.services.Places();
+    let ps = new kakao.maps.services.Places();
 
     // 키워드로 장소를 검색합니다
     ps.keywordSearch(e.target.value, placesSearchCB);
@@ -188,9 +144,9 @@ function Map() {
       if (status === kakao.maps.services.Status.OK) {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
-        var bounds = new kakao.maps.LatLngBounds();
+        let bounds = new kakao.maps.LatLngBounds();
 
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           // displayMarker(data[i]);
           setLatitude(data[i].y);
           setLongitude(data[i].x);
@@ -200,45 +156,27 @@ function Map() {
         // map.setBounds(bounds);
       }
     }
-    // return () => {
-    //   document.body.removeChild(script);
-    // }
-
-    // // 지도에 마커를 표시하는 함수입니다
-    // function displayMarker(place) {
-
-    //     // 마커를 생성하고 지도에 표시합니다
-    //     var marker = new kakao.maps.Marker({
-    //         map: map,
-    //         position: new kakao.maps.LatLng(place.y, place.x)
-    //     });
-
-    //     // 마커에 클릭이벤트를 등록합니다
-    //     kakao.maps.event.addListener(marker, 'click', function() {
-    //         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-    //         infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-    //         infowindow.open(map, marker);
-    //     });
-    // }
   }
 
   return (
     <>
-      <div className="header">
-        <div className="title">
-          {inputLocation ? (
-            <span id="title">"{inputLocation}"카페</span>
-          ) : (
-            <span id="title">카페찾기</span>
-          )}
+      <div className="map-searchbar-container">
+        {inputLocation ? (
+          <div className="map-title">
+            "{inputLocation}" <span className="text-cafe">카페</span>
+          </div>
+        ) : (
+          <div className="map-title">카페찾기</div>
+        )}
+        <div className="text-box-wrapper">
+          <input
+            type="text"
+            placeholder="어디 동네 핫한 카페 찾아요?"
+            className="text-box"
+            onChange={onChangeLocation}
+          ></input>
         </div>
-        <br />
-        <Form className="item">
-          <Form.Control onChange={onChangeLocation}></Form.Control>
-        </Form>
-        <i className="icon ion-ios-search"></i>
       </div>
-
       <div id="map"></div>
     </>
   );
