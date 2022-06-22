@@ -57,7 +57,7 @@ function CafeInfo() {
     setThisEvent(userEvent);
   }
 
-  const onImgChange = async (event) => {
+  const onImgChange = (event) => {
     const formData = new FormData();
     formData.append('file', event.target.files[0]);
   
@@ -125,7 +125,7 @@ function CafeInfo() {
             <Row>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>카페 도면</Form.Label>
-                 <input ref={logoImgInput} type="file" id="logoImg" accept="image/*" name="file" onChange={onImgChange} />
+                 <input type="file" id="logoImg" accept="image/*" name="file" onChange={onImgChange} />
               </Form.Group>
             </Row>
             <Row>
