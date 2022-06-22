@@ -1,0 +1,39 @@
+.header{
+  position: fixed;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  z-index: 2;
+  background: #FF947A;
+  box-shadow: 0px -4px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 10px 10px;
+
+  height: 14%;
+}
+
+
+.searchContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    padding-top: 2%;
+    text-align: center;
+}
+
+#title{
+    font-family: BM HANNA_TTF;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+
+    color:white;
+}
+
+
