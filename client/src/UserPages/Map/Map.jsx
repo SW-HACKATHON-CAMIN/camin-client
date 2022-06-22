@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-// import {Helmet} from "react-helmet";
+import {Helmet} from "react-helmet";
 
 import "./Map.css";
 import "./header.css";
@@ -27,12 +27,12 @@ function Map() {
 
   useEffect(() => {
 
-    const script = document.createElement('script');
+    // const script = document.createElement('script');
 
-    script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=4a307bf7d0df4bfe8f341b351e753e52";
-    script.async = true;
+    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=4a307bf7d0df4bfe8f341b351e753e52";
+    // script.async = true;
   
-    document.body.appendChild(script);
+    // document.body.appendChild(script);
 
     var mapContainer = document.getElementById("map"), // 지도를 표시할 div
       mapOption = {
@@ -124,24 +124,21 @@ function Map() {
     map.setCenter(locPosition);
   }
 
-  return () => {
-    document.body.removeChild(script);
-  }
+  // return () => {
+  //   document.body.removeChild(script);
+  // }
   
   }, [latitude, longitude]);
 
 
-
-
-
   function onChangeLocation(e) {
 
-    const script = document.createElement('script');
+    // const script = document.createElement('script');
 
-    script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=4a307bf7d0df4bfe8f341b351e753e52&libraries=services";
-    script.async = true;
+    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=4a307bf7d0df4bfe8f341b351e753e52&libraries=services";
+    // script.async = true;
   
-    document.body.appendChild(script);
+    // document.body.appendChild(script);
   
  
     setInputLocation(e.target.value);
@@ -183,9 +180,9 @@ function Map() {
             // map.setBounds(bounds);
         } 
     }
-    return () => {
-      document.body.removeChild(script);
-    }
+    // return () => {
+    //   document.body.removeChild(script);
+    // }
 
     // // 지도에 마커를 표시하는 함수입니다
     // function displayMarker(place) {
