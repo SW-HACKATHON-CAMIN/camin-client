@@ -1,40 +1,73 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 import axios from "axios";
 
-export default function kakaoLogin() {
+import qs from "qs";
 
-    const REST_API_KEY = "ca8c40745e8e48038322e1f00094dee0";
-    const kakaoLoginUrl = "https://kauth.kakao.com/oauth/authorize";
-    const kakaoLogOutUrl = "https://kauth.kakao.com/oauth/logout";
-    const kakaoTokenApiUrl = "https://kauth.kakao.com/oauth/token"; 
-    const redirectUrl = "";
+import { REST_API_KEY, REDIRECT_URI, TOKEN_API_URL } from "./KakaoAuth";
 
-    function getKakaoToken(code) {
-		let token = "";
-        let data = {
-            "grant_type": "authorization_code",
-            "client_id": REST_API_KEY,
-            "redirect_uri": redirectUrl,
-            "code": code,
-        };
+function KakaoLogin({setIsLogin}) {
+  const navigate = useNavigate();
+  let authCode = new URL(window.location.href).searchParams.get("code");
 
-        axios.post(kakaoTokenApiUrl, {
-            data: data,
-            dataType: "json",
-            async: false,
-        }).then(
+  useEffect(() => {
+    if (authCode) {
+      let data = {
+        grant_type: "authorization_code",
+        client_id: REST_API_KEY,
+        redirect_uri: REDIRECT_URI,
+        code: authCode,
+      };
+      getKakaoToken
+        .mutateAsync(qs.stringify(data))
+        .then((res) => {
+          //setKakaoToken(res.access_token);
+          console.log(res);
+          setIsLogin(true)
+        })
+        .then(navigate("/map"))
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [authCode]);
 
-            
-        )
+  const headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
 
-        
-            return token;
-        }
-  
-  
-    return (
-    <div>
-      
-    </div>
-  )
+  const getKakaoToken = useMutation((data) => {
+    axios.post(TOKEN_API_URL, data, { headers });
+  });
+
+  // useEffect(() => {
+  //   if (authCode) {
+  //     getKakaoToken(authCode);
+  //   }
+  // }, [authCode]);
+
+  // function getKakaoToken(authCode) {
+  //   let token = "";
+  //   let data = {
+  //     grant_type: "authorization_code",
+  //     client_id: REST_API_KEY,
+  //     redirect_uri: REDIRECT_URI,
+  //     code: authCode,
+  //   };
+
+  //   axios
+  //     .post(TOKEN_API_URL, {
+  //       data: data,
+  //       dataType: "json",
+  //       async: false,
+  //     }, )
+  //     .then((res) => console.log(res))
+  //     .then(navigate("/map"));
+  //   return token;
+  // }
+
+  return <div></div>;
 }
+
+export default KakaoLogin;
