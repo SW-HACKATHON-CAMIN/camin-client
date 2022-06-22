@@ -4,8 +4,7 @@ import axios from "axios";
 /* CSS Import */
 import "./MainLayout.css";
 import "./login.css";
-import "./loginAPI.js"
-
+import {Button} from 'react-bootstrap';
 
 function Login(props) {
   const[loginRequest, setLoginRequest] = useState(false);
@@ -61,9 +60,9 @@ function Login(props) {
 
       <div className="loginText">간편하게 로그인하고<br/>내 주변의 다양한 카페를 만나봐요.</div>
 
-      <div className="loginBlock" onClick={()=>setLoginRequest(true)}>
-      <img src="/Assets/kakaoLogin/kakaoLogin.png" alt="카카오로그인"></img>
-      </div>
+      
+      <input type="image" className="loginBlock"  id="loginBlock" src="/Assets/kakaoLogin/kakaoLogin.png" alt="카카오로그인" onClick={setLoginRequest(true)}/>
+
 
 
 
@@ -139,6 +138,7 @@ function Login(props) {
         )}
       </div>
     </div>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   </div>
   )
 }
