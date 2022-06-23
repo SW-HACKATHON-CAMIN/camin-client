@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import "./ReserveSeat.css";
 
 function ReserveSeat() {
@@ -36,39 +37,50 @@ function ReserveSeat() {
   ]);
 
   const [isCardSelected, setIsCardSelected] = useState(false);
+
+  useEffect(()=>{
+    PrintSeat()
+  },[isCardSelected])
+
   const selectedSeat = (id) => {
     console.log(id)
-    setIsCardSelected((isCardSelected) => !isCardSelected);
+    setIsCardSelected(id);
   };
+
+  const PrintSeat = () => {
+    return(
+      <div className="reserve-seat-container">
+      {seatData.map((seat) => {
+        return (
+          <div
+            className={
+              isCardSelected==seat.id
+                ? "seat-card card-selected"
+                : "seat-card card-not-selected"
+            }
+            onClick={()=>selectedSeat(seat.id)}
+            key={seat.id}
+            >
+            <div className="seat-img">
+              <img src="/Assets/seattest.png" alt="" />
+            </div>
+            <div className="seat-info">
+              <div className="seat-name">{seat.seatName}</div>
+              <div className="seat-status">{seat.status}</div>
+              <div className="seat-text">
+                인원 수 만큼 음료를 구매해주세요.
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+    )
+  }
 
   return (
     <>
-      <div className="reserve-seat-container">
-        {seatData.map((seat) => {
-          return (
-            <div
-              className={
-                isCardSelected
-                  ? "seat-card card-selected"
-                  : "seat-card card-not-selected"
-              }
-              onClick={()=>selectedSeat(seat.id)}
-              key={seat.id}
-            >
-              <div className="seat-img">
-                <img src="/Assets/seattest.png" alt="" />
-              </div>
-              <div className="seat-info">
-                <div className="seat-name">{seat.seatName}</div>
-                <div className="seat-status">{seat.status}</div>
-                <div className="seat-text">
-                  인원 수 만큼 음료를 구매해주세요.
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+     <PrintSeat/>
     </>
   );
 }
