@@ -34,3 +34,9 @@
 .seat-text {
   font-size: 10px;
 }
+.card-selected {
+  border: 2px solid #ff947a;
+}
+.card-not-selected {
+  border: none;
+}
