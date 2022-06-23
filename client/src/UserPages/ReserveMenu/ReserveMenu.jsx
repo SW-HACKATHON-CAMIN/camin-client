@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 import "./ReserveMenu.css";
 
@@ -63,7 +62,7 @@ function ReserveMenu() {
     ownerPickItem.filter((item, i) => {
       return (
         ownerPickItem.findIndex((item2, j) => {
-          return item.id == item2.id;
+          return item.id === item2.id;
         }) === i
       );
     });
@@ -101,7 +100,7 @@ function ReserveMenu() {
 
     //선택한 상품의 가격정보 받아오기
     menuData.map((thisData) => {
-      if (thisData.id == targetId) {
+      if (thisData.id === targetId) {
         targetPrice = thisData.price;
       }
     });
@@ -154,7 +153,7 @@ function ReserveMenu() {
 
     //선택한 상품의 가격정보 받아오기
     menuData.map((thisData) => {
-      if (thisData.id == targetId) {
+      if (thisData.id === targetId) {
         targetPrice = thisData.price;
       }
     });
@@ -167,8 +166,8 @@ function ReserveMenu() {
     else {
       allItemList.map((thisData) => {
         //동일한 상품이 있는 경우 수량 갱신
-        if (thisData.itemId == targetId) {
-          if (thisData.itemNum == 0) {
+        if (thisData.itemId === targetId) {
+          if (thisData.itemNum === 0) {
             return;
           }
           thisData.itemNum -= 1;
@@ -188,12 +187,12 @@ function ReserveMenu() {
     var allItemList = JSON.parse(localStorage.getItem("itemList"));
 
     //담은 상품이 없는 경우(새로 생성)
-    if (allItemList == undefined) {
+    if (allItemList === undefined) {
       return result;
     } else {
       allItemList.map((thisData) => {
         //동일한 상품이 있는 경우 수량 갱신
-        if (thisData.itemId == target) {
+        if (thisData.itemId === target) {
           result = thisData.itemNum;
         }
       });
@@ -201,61 +200,90 @@ function ReserveMenu() {
     return result;
   };
 
-    //모달띄우기
-    function OrderCheckModal(props) {
-      return (
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Body className="show-grid">
+  //모달띄우기
+  function OrderCheckModal(props) {
+    const selectList = ["10분 뒤", "20분 뒤", "30분 뒤", "40분 뒤", "1시간 뒤"];
+    const [Selected, setSelected] = useState("");
+
+    const handleSelect = (e) => {
+      setSelected(e.target.value);
+    };
+
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body className="show-grid">
           <Container>
             <Row>
-              <Col xs={4} md={4}>
-                예약좌석
-              </Col>
-              <Col xs={14} md={8}/>
+              <div className="reserve-seat-title">예약좌석</div>
+              <Col xs={14} md={8} />
             </Row>
             <Row>
               <div className="check-seat-category">
-                <div className="check-seat-category-name">
-                  {/* 좌석유형 */}
-                </div>
-                {/* 혼잡도 버튼 */}
+                <div className="check-seat-category-name">좌석유형 적어줘</div>
+                <div className="check-seat-category-complexity">혼잡도</div>
               </div>
             </Row>
             <Row>
               <Col xs={4} md={4}>
-                  주문메뉴
+                <div className="order-menu-title">주문메뉴</div>
               </Col>
-              <Col xs={14} md={8}/>
-              <ul>
-                <li></li>
-              </ul>
+              <Col xs={14} md={8} />
+              <div className="order-menu-list">
+                <ul>
+                  <li className="order-item">123</li>
+                  <li className="order-item">232</li>
+                  <li className="order-item">32344</li>
+                </ul>
+              </div>
+            </Row>
+            <Row>
+              <div className="time-select-box">
+                <div className="visit-time-select">방문 예정 시간</div>
+                <select
+                  onChange={handleSelect}
+                  value={Selected}
+                  className="time-select-bar"
+                >
+                  {selectList.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </Row>
           </Container>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={props.onHide}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      );
-    }
-  
-    const totalCharge = () => {
-      //상품가격 조회
-      var allItemList = JSON.parse(localStorage.getItem("itemList"));
-      var total = 0;
-  
-      allItemList.map((thisData) => {
-        var tmpNum = thisData.itemNum;
-        tmpNum *= thisData.itemPrice;
-        total += tmpNum;
-      })
-      return total;
-    }
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="total-price-box">
+            <div className="price-text">총 주문금액: </div>
+            <div className="total-price">{totalPrice} 원</div>
+          </div>
+          <Button>결제하기</Button>
+          <Button onClick={props.onHide}>취소</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const totalCharge = () => {
+    //상품가격 조회
+    var allItemList = JSON.parse(localStorage.getItem("itemList"));
+    var total = 0;
+
+    allItemList.map((thisData) => {
+      var tmpNum = thisData.itemPrice;
+      total += tmpNum;
+    });
+    return total;
+  };
 
   return (
     <div className="reserve-seat-container">
@@ -294,13 +322,12 @@ function ReserveMenu() {
         })}
       </div>
       <div className="order-frame">
-        <div className="order-btn"  onClick={() => setModalShow(true)}>주문하기</div>
+        <div className="order-btn" onClick={() => setModalShow(true)}>
+          주문하기
+        </div>
       </div>
 
-      <OrderCheckModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        />
+      <OrderCheckModal show={modalShow} onHide={() => setModalShow(false)} />
     </div>
   );
 }
