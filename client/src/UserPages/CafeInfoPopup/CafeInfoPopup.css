@@ -1,0 +1,135 @@
+/* .frame {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr 2fr 3fr;
+  margin: 10px 10px 10px 10px;
+}
+.title {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.address {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  font-family: Noto Sans CJK KR;
+  font-size: 12px;
+  font-weight: 350;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+.type {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.25px;
+  text-align: center;
+}
+.reserve {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  color: #ffffff;
+}
+.mainImg {
+  grid-row-start: 1;
+  grid-row-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+#reserveButton {
+  background-color: #ff947a;
+}
+#typeBox {
+  border-radius: 10px;
+  box-shadow: 1px 1px black;
+} */
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+.show-cafe-info {
+  position: fixed;
+  left: 0%;
+  right: 0%;
+  bottom: 8%;
+  z-index: 1;
+  width: 375px;
+  height: 320px;
+  background: white;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 16px 16px 0px 0px;
+}
+.hide-cafe-info {
+  display: none;
+}
+.cafe-info-items {
+  margin: 50px 10px 30px 10px;
+}
+.cafe-name-img-wrap {
+  display: flex;
+}
+.name-address-wrap {
+  width: 210px;
+  flex-grow: 2;
+}
+.cafe-name {
+  padding: 0 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.cafe-address {
+  padding: 0 5px;
+  margin: 10px 0;
+  font-size: 12px;
+  color: gray;
+}
+.cafe-categories {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+}
+.category-item {
+  display: flex;
+  flex: 1 1 50%;
+  justify-content: center;
+  align-items: center;
+  margin: 3px 0;
+  padding: 2px 14px;
+  height: 25px;
+  font-size: 14px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 17px;
+}
+.cafe-img {
+  margin-left: 5px;
+  object-fit: scale-down;
+}
+.reserve-seat-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 327px;
+  height: 56px;
+  background: #ff947a;
+  border-radius: 8px;
+  color: white;
+  margin: auto;
+}
