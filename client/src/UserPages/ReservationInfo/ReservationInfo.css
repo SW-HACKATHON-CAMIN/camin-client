@@ -1,0 +1,52 @@
+.reservation-container {
+  width: 100%;
+  height: 100vh;
+  padding: 1px;
+}
+.reservation-title {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 40px 20px 20px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  margin-bottom: 20px;
+}
+.reservation-list {
+}
+.reservation-card {
+  width: 70%;
+  height: 200px;
+  margin: 10px auto;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+.reservation-cage-img-box {
+  height: 100px;
+}
+.reservation-cafe-img {
+  width: 100%;
+  height: 100%;
+}
+.reservation-info {
+  padding: 20px 0;
+  margin: auto 20px;
+}
+
+.reservation-cafe-name {
+  display: flex;
+  padding-bottom: 5px;
+}
+.reservation-cafe-seat {
+  display: flex;
+  padding-bottom: 5px;
+}
+.reservation-cafe-menu {
+  display: flex;
+  padding-bottom: 5px;
+}
+.info-type {
+  margin-right: 30px;
+  font-weight: bold;
+}
+.info-detail {
+  margin-left: 50px;
+}
