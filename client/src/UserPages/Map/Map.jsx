@@ -522,9 +522,9 @@ function Map() {
         </div>
       </div>
 
-      <div id="filter-btn" onClick={showFilter}>
+      {/* <div id="filter-btn" onClick={showFilter}>
         <img src="/Assets/map/filter.png" alt="필터링" />
-      </div>
+      </div> */}
       <div id="map"></div>
     </>
   );
