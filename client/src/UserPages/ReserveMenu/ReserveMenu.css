@@ -11,22 +11,26 @@
   justify-content: center;
   align-items: center;
   margin: 5px 0;
-  height: 114px;
-  left: 16px;
-  right: 16px;
-  top: 608px;
   background: #ffffff;
-  border-radius: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 .menu-info {
+  text-align: center;
   margin-left: 10px;
+  flex-grow: 2;
 }
 .menu-img {
-  padding-right: 30px;
+  padding-left: 20px;
+  margin: 3px 0;
 }
 .menu-name {
   font-weight: bold;
   padding-bottom: 10px;
+}
+.menu-price {
+  padding-bottom: 5px;
+}
+.menu-count {
 }
 .menu-status {
   font-size: 12px;
@@ -37,38 +41,37 @@
   font-size: 10px;
 }
 
-.ownerPick{
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    background: #ffffff;
-    border-radius: 20px;
-    /* display: flex;
+.ownerPick {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 20px;
+  /* display: flex;
     justify-content: center;
     align-items: center; */
-    border: 1px solid #FF947A;
+  border: 1px solid #ff947a;
 }
 
-.ownerPick-card{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5px 0;
-    height: 114px;
-    left: 16px;
-    right: 16px;
-    top: 608px;
-    background: #ffffff;
-    border-radius: 10px;
+.ownerPick-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0;
+  height: 114px;
+  left: 16px;
+  right: 16px;
+  top: 608px;
+  background: #ffffff;
+  border-radius: 10px;
 }
 
-.buttonStyle{
+.buttonStyle {
   margin-left: 5px;
   margin-right: 5px;
 }
 
-
-.order-btn{
+.order-btn {
   display: flex;
   align-items: center;
   justify-content: center;
