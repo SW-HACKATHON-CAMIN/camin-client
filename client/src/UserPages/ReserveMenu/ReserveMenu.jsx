@@ -203,6 +203,45 @@ function ReserveMenu() {
       setSelected(e.target.value);
     };
 
+    // const headers = {
+    //   "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    //   Authorization: "KakaoAK 9f9469b87e5666c1f2b544d2802e457b",
+    // };
+
+    const config = {
+      next_redirect_mobile_url: "",
+      tid: "",
+      params: {
+        cid: "TC0ONETIME",
+        partner_order_id: "O202206231120216",
+        partner_user_id: 1,
+        item_name: "결제테스트",
+        quantity: 5,
+        total_amount: 8000,
+        vat_amount: 0,
+        tax_free_amount: 0,
+        approval_url: "http://localhost:3000/reservationinfo",
+        fail_url: "http://localhost:3000/reservation",
+        cancel_url: "http://localhost:3000/reservation",
+      },
+    };
+
+    const handlePay = () => {
+      axios
+        .post("https://kapi.kakao.com/v1/payment/ready", {
+          config,
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+            Authorization: "KakaoAK 9f9469b87e5666c1f2b544d2802e457b",
+          },
+        })
+        .then(function (response) {
+          if (response) {
+            console.log(response);
+          }
+        });
+    };
+
     return (
       <Modal
         {...props}
@@ -212,7 +251,7 @@ function ReserveMenu() {
       >
         <Modal.Body className="show-grid">
           <Container>
-            <Row>
+            {/* <Row>
               <div className="reserve-seat-title">예약좌석</div>
               <Col xs={14} md={8} />
             </Row>
@@ -234,7 +273,7 @@ function ReserveMenu() {
                   <li className="order-item">32344</li>
                 </ul>
               </div>
-            </Row>
+            </Row> */}
             <Row>
               <div className="time-select-box">
                 <div className="visit-time-select">방문 예정 시간</div>
@@ -258,7 +297,7 @@ function ReserveMenu() {
             <div className="price-text">총 주문금액: </div>
             <div className="total-price">{totalPrice} 원</div>
           </div>
-          <Button>결제하기</Button>
+          <Button onClick={handlePay}>결제하기</Button>
           <Button onClick={props.onHide}>취소</Button>
         </Modal.Footer>
       </Modal>
