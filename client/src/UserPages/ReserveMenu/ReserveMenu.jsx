@@ -52,11 +52,11 @@ function ReserveMenu() {
     },
   ]);
 
-  useEffect(() => {
-    //API넣기
+  // useEffect(() => {
+  //   //API넣기
 
-    checkOwnerPick();
-  }, []);
+  //   checkOwnerPick();
+  // }, []);
 
   useEffect(() => {
     ownerPickItem.filter((item, i) => {
@@ -74,19 +74,19 @@ function ReserveMenu() {
     setCheckButtonClicked(false);
   }, [checkButtonClicked]);
 
-  //사장님 픽이 있는 지 검증& 선택 수량 체크를 위한 로직
-  const checkOwnerPick = () => {
-    menuData.map((thisData) => {
-      if (!thisData.ownerPick === false) {
-        setIsPickItem(true);
-        setOwnerPickItem((data) => [...data, thisData]);
+  // //사장님 픽이 있는 지 검증& 선택 수량 체크를 위한 로직
+  // const checkOwnerPick = () => {
+  //   menuData.map((thisData) => {
+  //     if (!thisData.ownerPick === false) {
+  //       setIsPickItem(true);
+  //       setOwnerPickItem((data) => [...data, thisData]);
 
-        //수량체크용
-        var tmp = { id: thisData.id, num: 0 };
-        setCheckItemNum((data) => [...data, tmp]);
-      }
-    });
-  };
+  //       //수량체크용
+  //       var tmp = { id: thisData.id, num: 0 };
+  //       setCheckItemNum((data) => [...data, tmp]);
+  //     }
+  //   });
+  // };
 
   //수량 체크
   const plusReserveList = (e) => {
@@ -187,7 +187,7 @@ function ReserveMenu() {
     var allItemList = JSON.parse(localStorage.getItem("itemList"));
 
     //담은 상품이 없는 경우(새로 생성)
-    if (allItemList === undefined) {
+    if (allItemList == undefined) {
       return result;
     } else {
       allItemList.map((thisData) => {
