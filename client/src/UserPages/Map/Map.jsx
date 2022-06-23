@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./Map.css";
 import "./MapSearchBar.css";
 import CafeInfoPopup from "../CafeInfoPopup/CafeInfoPopup";
+import Filter from "./Filter";
 
 const { kakao } = window;
 
@@ -56,6 +57,9 @@ function Map() {
       navigator.geolocation.getCurrentPosition(function (position) {
         let lat = latitude, // 위도
           lon = longitude; // 경도
+
+          console.log("lat:",latitude)
+          console.log("lon:",longitude)
 
         let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
@@ -238,6 +242,7 @@ function Map() {
   return (
     <>
       <CafeInfoPopup/>
+      <Filter/>
       <div className="map-searchbar-container">
         {inputLocation ? (
           <div className="map-title">
