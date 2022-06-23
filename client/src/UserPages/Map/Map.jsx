@@ -107,7 +107,6 @@ function Map() {
       displayMarker(locPosition, message);
     }
 
- 
 
     const markerdata = [
       {
