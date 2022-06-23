@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+
 
 import "./ReserveMenu.css";
 
@@ -11,6 +15,8 @@ function ReserveMenu() {
   const [isPickItem, setIsPickItem] = useState(false);
   const [checkItemNum, setCheckItemNum] = useState([]);
   const [checkButtonClicked, setCheckButtonClicked] = useState(false);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   const [menuData, setMenuData] = useState([
     {
@@ -195,12 +201,68 @@ function ReserveMenu() {
     return result;
   };
 
+    //모달띄우기
+    function OrderCheckModal(props) {
+      return (
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body className="show-grid">
+          <Container>
+            <Row>
+              <Col xs={4} md={4}>
+                예약좌석
+              </Col>
+              <Col xs={14} md={8}/>
+            </Row>
+            <Row>
+              <div className="check-seat-category">
+                <div className="check-seat-category-name">
+                  {/* 좌석유형 */}
+                </div>
+                {/* 혼잡도 버튼 */}
+              </div>
+            </Row>
+            <Row>
+              <Col xs={4} md={4}>
+                  주문메뉴
+              </Col>
+              <Col xs={14} md={8}/>
+              <ul>
+                <li></li>
+              </ul>
+            </Row>
+          </Container>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={props.onHide}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      );
+    }
+  
+    const totalCharge = () => {
+      //상품가격 조회
+      var allItemList = JSON.parse(localStorage.getItem("itemList"));
+      var total = 0;
+  
+      allItemList.map((thisData) => {
+        var tmpNum = thisData.itemNum;
+        tmpNum *= thisData.itemPrice;
+        total += tmpNum;
+      })
+      return total;
+    }
+
   return (
     <div className="reserve-seat-container">
       <div>
         {menuData.map((thisMenu) => {
           return (
-            <div className="menu-card" key={thisMenu.id}>
+            <div className="menu-card">
               <div className="menu-img">
                 <img src={thisMenu.menuImg} alt={thisMenu.name} />
               </div>
@@ -232,8 +294,13 @@ function ReserveMenu() {
         })}
       </div>
       <div className="order-frame">
-        <div className="order-btn">주문하기</div>
+        <div className="order-btn"  onClick={() => setModalShow(true)}>주문하기</div>
       </div>
+
+      <OrderCheckModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        />
     </div>
   );
 }
