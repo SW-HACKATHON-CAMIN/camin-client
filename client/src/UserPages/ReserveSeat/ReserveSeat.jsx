@@ -35,12 +35,26 @@ function ReserveSeat() {
     },
   ]);
 
+  const [isCardSelected, setIsCardSelected] = useState(false);
+  const selectedSeat = (id) => {
+    console.log(id)
+    setIsCardSelected((isCardSelected) => !isCardSelected);
+  };
+
   return (
     <>
       <div className="reserve-seat-container">
         {seatData.map((seat) => {
           return (
-            <div className="seat-card">
+            <div
+              className={
+                isCardSelected
+                  ? "seat-card card-selected"
+                  : "seat-card card-not-selected"
+              }
+              onClick={()=>selectedSeat(seat.id)}
+              key={seat.id}
+            >
               <div className="seat-img">
                 <img src="/Assets/seattest.png" alt="" />
               </div>

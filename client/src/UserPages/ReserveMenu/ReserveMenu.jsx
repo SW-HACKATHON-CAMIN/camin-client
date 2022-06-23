@@ -200,7 +200,7 @@ function ReserveMenu() {
       <div>
         {menuData.map((thisMenu) => {
           return (
-            <div className="menu-card">
+            <div className="menu-card" key={thisMenu.id}>
               <div className="menu-img">
                 <img src={thisMenu.menuImg} alt={thisMenu.name} />
               </div>
