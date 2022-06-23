@@ -35,7 +35,6 @@ function Map() {
   //실시간 지도 정보
   const [mapInfo, setMapInfo] = useState(false);
 
-
   //실제 지도 관련 코드
 
   let watcherID = navigator.geolocation.watchPosition(function (position) {
@@ -67,7 +66,10 @@ function Map() {
         let lat = position.coords.latitude, // 위도
           lon = position.coords.longitude; // 경도
 
-        let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        let locPosition = new kakao.maps.LatLng(
+            37.5578747542407,
+            126.927104943545
+          ), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
@@ -90,24 +92,23 @@ function Map() {
         //지도 정보 받아오기
         getCafeList(lat, lon, category);
 
-        
-
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-      let locPosition = new kakao.maps.LatLng(37.5578747542407, 126.927104943545),
+      let locPosition = new kakao.maps.LatLng(
+          37.5578747542407,
+          126.927104943545
+        ),
         message = "geolocation을 사용할수 없어요..";
-      
-        //지도 정보 받아오기
-        getCafeList(37.5578747542407 , 126.927104943545, category);
+
+      //지도 정보 받아오기
+      getCafeList(37.5578747542407, 126.927104943545, category);
 
       displayMarker(locPosition, message);
     }
-
- 
 
     const markerdata = [
       {
@@ -143,7 +144,7 @@ function Map() {
         status: 1,
       },
     ];
-    if(!mapInfo ===false){
+    if (!mapInfo === false) {
       //마커 처리
       mapInfo.forEach((el) => {
         // 마커를 생성합니다
@@ -166,7 +167,6 @@ function Map() {
         displayMarker(thisLocPosition, contents);
       });
     }
-    
 
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, contents) {
@@ -268,42 +268,40 @@ function Map() {
     });
   }, [openFilter]);
 
-  const getCafeList = (latitude,longitude,categoryIds)=>{
+  const getCafeList = (latitude, longitude, categoryIds) => {
     var result = null;
-    console.log(latitude,longitude,categoryIds)
+    console.log(latitude, longitude, categoryIds);
 
-    if(!categoryIds){
- 
-      axios.get(`/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=`).then(
-        (response) =>{
-          setMapInfo(response.data);
-          result = response.data;
-          console.log("response.data",result)
-          return result;
-        }
-      ).catch(
-        (error)=>{
-          console.log(error);
-        }
-      )
-    }
-    else{
-      axios.get(`/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=${categoryIds}`).then(
-        (response) =>{
-          setMapInfo(response.data);
-          result = response.data;
-          console.log("response.data",result)
-          return result;
-        }
-        ).catch(
-          (error)=>{
-            console.log(error);
-          }
+    if (!categoryIds) {
+      axios
+        .get(
+          `/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=`
         )
+        .then((response) => {
+          setMapInfo(response.data);
+          result = response.data;
+          console.log("response.data", result);
+          return result;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(
+          `/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=${JSON.stringify(categoryIds)}`
+        )
+        .then((response) => {
+          setMapInfo(response.data);
+          result = response.data;
+          console.log("response.data", result);
+          return result;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-    
-  }
-
+  };
 
   function onChangeLocation(e) {
     const script = document.createElement("script");
@@ -421,7 +419,11 @@ function Map() {
                 <br />
                 <div className="cafe-categories">
                   {visiterNum.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}
@@ -437,7 +439,11 @@ function Map() {
                 방문 목적
                 <div className="cafe-categories">
                   {purpose.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}
@@ -453,7 +459,11 @@ function Map() {
                 카테고리
                 <div className="cafe-categories">
                   {category.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}
@@ -469,7 +479,11 @@ function Map() {
                 분위기
                 <div className="cafe-categories">
                   {experience.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}
