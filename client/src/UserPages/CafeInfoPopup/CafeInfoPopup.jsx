@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+import { useNavigate } from "react-router-dom";
 import "./CafeInfoPopup.css";
 
 function CafeInfoPopup({ cafeName, address, type, status, img }) {
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(true);
 
   const cafeInfoClose = () => {
     setIsOpen(false);
   };
 
+  const gotoReservationPage = () => {
+    navigate("/reservation");
+  };
+
   return (
     <>
-      <div className="background" onClick={cafeInfoClose}></div>
+      <div className={isOpen ? "show-background" : "hide-background"} onClick={cafeInfoClose}></div>
       <div className={isOpen ? "show-cafe-info" : "hide-cafe-info"}>
         <div className="cafe-info-items">
           <div className="cafe-name-img-wrap">
@@ -36,34 +38,11 @@ function CafeInfoPopup({ cafeName, address, type, status, img }) {
             </div>
           </div>
         </div>
-        <div className="reserve-seat-btn">좌석 예약하기</div>
+        <div className="reserve-seat-btn" onClick={gotoReservationPage}>
+          좌석 예약하기
+        </div>
       </div>
     </>
-
-    // <Card style={{ width: "18rem" }}>
-    //   <Card.Body>
-    //     <div className="frame">
-    //       <div className="title">{cafeName}</div>
-    //       <div className="address">{address}</div>
-    //       <div className="type">
-    //         {type}
-    //         {/* {
-    //                     type.map(thisData => (
-    //                         <span id="typeBox">{thisData}</span>
-    //                     ))
-    //                 } */}
-    //       </div>
-    //       <div className="mainImg">
-    //         <img src={img} alt={cafeName + "이미지"} />
-    //       </div>
-    //       <div className="reserve">
-    //         <Button id="reserveButton" variant="primary">
-    //           좌석 예약하기
-    //         </Button>
-    //       </div>
-    //     </div>
-    //   </Card.Body>
-    // </Card>
   );
 }
 

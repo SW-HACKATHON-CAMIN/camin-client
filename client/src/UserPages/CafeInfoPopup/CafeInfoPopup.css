@@ -60,10 +60,15 @@
   border-radius: 10px;
   box-shadow: 1px 1px black;
 } */
-.background {
+.show-background {
   position: fixed;
   width: 100%;
   height: 100vh;
+  z-index: 1;
+}
+.hide-background {
+  display: none;
+  z-index: -2;
 }
 .show-cafe-info {
   position: fixed;
