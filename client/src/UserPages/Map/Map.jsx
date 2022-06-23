@@ -7,6 +7,7 @@ import "./filter.css";
 // import Filter from "./Filter"
 import "./filter.css"
 import axios from 'axios'
+import CafeInfoPopup from "../CafeInfoPopup/CafeInfoPopup";
 
 const { kakao } = window;
 
@@ -18,8 +19,13 @@ function Map() {
   const [inputLocation, setInputLocation] = useState("");
   const [isFirst, setIsFirst] = useState(false); 
 
+
   //카페 필터 노출여부
   const [filterShow, setFilterShow] = useState(false)
+
+  //카페 간략정보 불러오기
+  const [modalShow, setModalShow] = useState(false);
+
 
   let watcherID = navigator.geolocation.watchPosition(function (position) {
     setLatitude(position.coords.latitude);
@@ -77,6 +83,7 @@ function Map() {
 
     const markerdata = [
       {
+
         cafeName: "카페1",
         address: "제주1",
         latitude: 33.450701,
@@ -124,7 +131,8 @@ function Map() {
       // 마커를 생성합니다
       let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude)
 
-      var contents = el
+
+      var contents = el;
 
       // var thisMarker = new kakao.maps.Marker({
       //   //마커가 표시 될 지도
@@ -137,10 +145,8 @@ function Map() {
       //   clickable: true,
       // });
 
-
-        // 마커와 인포윈도우를 표시합니다
-        displayMarker(thisLocPosition, contents);
-
+      // 마커와 인포윈도우를 표시합니다
+      displayMarker(thisLocPosition, contents);
     });
 
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
@@ -148,6 +154,7 @@ function Map() {
       var imageSrc;
 
       //혼잡도에 따른 마커 색 지정
+
       if(contents.status === 0 ){
         imageSrc = 'https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png' // 마커이미지의 주소입니다    
       }
@@ -168,8 +175,13 @@ function Map() {
       var imageSize = new kakao.maps.Size(30, 30), // 마커이미지의 크기입니다
       imageOption = {offset: new kakao.maps.Point(15, 15)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
+
       // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+      var markerImage = new kakao.maps.MarkerImage(
+        imageSrc,
+        imageSize,
+        imageOption
+      );
 
       // 마커를 생성합니다
       let marker = new kakao.maps.Marker({
@@ -189,14 +201,14 @@ function Map() {
       //   removable: iwRemoveable,
       // });
 
-     
       // 마커에 클릭이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, 'click', function() {
+      kakao.maps.event.addListener(marker, "click", function () {
         // 마커 위에 인포윈도우를 표시합니다
-        // infowindow.open(map, marker);
-        alert(contents.experience);
+
+        infowindow.open(map, marker);
+        alert(contents.type);
+
         // cafeBrief(contents.title,"",contents.type,"","")
-        
       });
 
       // 인포윈도우를 마커위에 표시합니다
@@ -317,6 +329,7 @@ function Map() {
 
   return (
     <>
+      <CafeInfoPopup />
       <div className="map-searchbar-container">
         {inputLocation ? (
           <div className="map-title">
