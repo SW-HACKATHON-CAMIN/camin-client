@@ -36,6 +36,7 @@ function Map() {
   const [mapInfo, setMapInfo] = useState(false);
 
 
+
   //실제 지도 관련 코드
 
   let watcherID = navigator.geolocation.watchPosition(function (position) {
@@ -84,91 +85,48 @@ function Map() {
         console.log("lat:", latitude);
         console.log("lon:", longitude);
 
-        let locPosition = new kakao.maps.LatLng(lat, lon) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-          // message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+        let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+          message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
 
         //지도 정보 받아오기
-        thisMapInfo = getCafeList();
-
-        
+        console.log("check")
+        thisMapInfo = getCafeList(lat,lon,false);
 
         // 마커와 인포윈도우를 표시합니다
-        displayMarker(locPosition, thisMapInfo );
+        displayMarker(locPosition, message);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-      let locPosition = new kakao.maps.LatLng(37.557015, 126.919835)
-        // message = "geolocation을 사용할수 없어요..";
+      let locPosition = new kakao.maps.LatLng(37.557015, 126.919835),
+        message = "geolocation을 사용할수 없어요..";
       
         //지도 정보 받아오기
-        thisMapInfo = getCafeList();
+        thisMapInfo = getCafeList(37.557015, 126.919835,false);
 
-      displayMarker(locPosition, thisMapInfo );
+      displayMarker(locPosition, message);
     }
 
- 
+    if(thisMapInfo != undefined){
+      console.log("thisMapInfo:",thisMapInfo)
+      //마커 처리
+      thisMapInfo.forEach((el) => {
+        // 마커를 생성합니다
+        let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude);
 
-    // const markerdata = [
-    //   {
-    //     cafeName: "카페1",
-    //     address: "제주1",
-    //     latitude: 33.450701,
-    //     longitude: 126.570567,
-    //     experience: ["조용한", "카페공부가능"],
-    //     status: 1,
-    //   },
-    //   {
-    //     cafeName: "카페2",
-    //     address: "제주2",
-    //     latitude: 33.450711,
-    //     longitude: 126.570667,
-    //     experience: ["활기찬", "카페공부가능"],
-    //     status: 1,
-    //   },
-    //   {
-    //     cafeName: "카페3",
-    //     address: "제주3",
-    //     latitude: 33.450601,
-    //     longitude: 126.570657,
-    //     experience: ["신비한", "카페공부가능"],
-    //     status: 2,
-    //   },
-    //   {
-    //     cafeName: "카페4",
-    //     address: "제주4",
-    //     latitude: 33.450701,
-    //     longitude: 126.57067,
-    //     experience: ["활기찬", "카페공부불가능"],
-    //     status: 1,
-    //   },
-    // ];
+        var contents = el;
 
-    //마커 처리
-    thisMapInfo.forEach((el) => {
-      // 마커를 생성합니다
-      let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude);
+        // 마커와 인포윈도우를 표시합니다
+        displayMarker(thisLocPosition, contents);
+      });
+    }
+     
 
-      var contents = el;
-
-      // var thisMarker = new kakao.maps.Marker({
-      //   //마커가 표시 될 지도
-      //   map: map,
-      //   //마커가 표시 될 위치
-      //   position: thisLocPosition,
-      //   //마커에 hover시 나타날 title
-      //   title: el.title,
-
-      //   clickable: true,
-      // });
-
-      // 마커와 인포윈도우를 표시합니다
-      displayMarker(thisLocPosition, contents);
-    });
-
-    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-    function displayMarker(locPosition, contents) {
+     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+     function displayMarker(locPosition, contents) {
       var imageSrc;
+
+      console.log('contents:',contents);
 
       //혼잡도에 따른 마커 색 지정
       if (contents.status === 0) {
@@ -231,7 +189,61 @@ function Map() {
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);
     }
-  }, [latitude, longitude]);
+  },[latitude, longitude])
+
+ 
+
+    // const markerdata = [
+    //   {
+    //     cafeName: "카페1",
+    //     address: "제주1",
+    //     latitude: 33.450701,
+    //     longitude: 126.570567,
+    //     experience: ["조용한", "카페공부가능"],
+    //     status: 1,
+    //   },
+    //   {
+    //     cafeName: "카페2",
+    //     address: "제주2",
+    //     latitude: 33.450711,
+    //     longitude: 126.570667,
+    //     experience: ["활기찬", "카페공부가능"],
+    //     status: 1,
+    //   },
+    //   {
+    //     cafeName: "카페3",
+    //     address: "제주3",
+    //     latitude: 33.450601,
+    //     longitude: 126.570657,
+    //     experience: ["신비한", "카페공부가능"],
+    //     status: 2,
+    //   },
+    //   {
+    //     cafeName: "카페4",
+    //     address: "제주4",
+    //     latitude: 33.450701,
+    //     longitude: 126.57067,
+    //     experience: ["활기찬", "카페공부불가능"],
+    //     status: 1,
+    //   },
+    // ];
+
+    // useEffect(()=>{
+    //   //마커 처리
+    //   mapInfo.forEach((el) => {
+    //     // 마커를 생성합니다
+    //     let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude);
+
+    //     var contents = el;
+
+    //     // 마커와 인포윈도우를 표시합니다
+    //     displayMarker(thisLocPosition, contents);
+    //   });
+
+     
+    // },[mapInfo])
+   
+
 
   //필터 값에 따른 카테고리 정보 받아오기(카테고리 API)
   useEffect(() => {
@@ -267,23 +279,35 @@ function Map() {
   }, [openFilter]);
 
   const getCafeList = (latitude,longitude,categoryIds)=>{
-    var result;
+    var result = null;
+    console.log(latitude,longitude,categoryIds)
 
     if(!categoryIds){
-      axios.get("/api/cafe",{latitude,longitude}).then(
+ 
+      axios.get(`/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=`).then(
         (response) =>{
           setMapInfo(response.data);
           result = response.data;
+          console.log("response.data",response.data)
+        }
+      ).catch(
+        (error)=>{
+          console.log(error);
         }
       )
     }
     else{
-      axios.get("/api/cafe",{latitude,longitude,categoryIds}).then(
+      axios.get(`/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=${categoryIds}`).then(
         (response) =>{
           setMapInfo(response.data);
           result = response.data;
+          console.log("response.data",response.data)
         }
-      )
+        ).catch(
+          (error)=>{
+            console.log(error);
+          }
+        )
     }
     return result;
   }
