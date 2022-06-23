@@ -1,0 +1,49 @@
+.filterBarFrame{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 80vw;
+    right: 0px;
+    background-color: #FFFFFF;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+
+    z-index: 3;
+}
+
+.categoryFrame{
+    flex-basis: content;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+
+.category{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.categoryItem{
+    flex-basis: content;
+}
+
+
+#filterReset{
+    flex-basis: content;
+}
+
+#filterApply{
+    flex-basis: content;
+}
+
+#filterIcon{
+    z-index: 3;
+    position: fixed;
+    top: 20%;
+    left: 48%;
+}

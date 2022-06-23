@@ -73,52 +73,67 @@ function Map() {
 
     const markerdata = [
       {
-        title: "콜드스퀘어",
-        lat: 33.450701,
-        lng: 126.570567,
-        type: ["조용한", "카페공부가능"],
+
+        cafeName: "카페1",
+        address: "제주1",
+        latitude: 33.450701,
+        longitude: 126.570567,
+        experience: [
+          "조용한",
+          "카페공부가능"
+        ],
         status: 1,
       },
       {
-        title: "하남돼지집",
-        lat: 33.450711,
-        lng: 126.570667,
-        type: ["활기찬", "카페공부가능"],
+        cafeName: "카페2",
+        address: "제주2",
+        latitude: 33.450711,
+        longitude: 126.570667,
+        experience: [
+          "활기찬","카페공부가능"
+        ],
         status: 1,
       },
       {
-        title: "수유리우동",
-        lat: 33.450601,
-        lng: 126.570657,
-        type: ["신비한", "카페공부가능"],
+        cafeName:"카페3",
+        address: "제주3",
+        latitude: 33.450601,
+        longitude: 126.570657,
+        experience: [
+          "신비한","카페공부가능"
+        ],
         status: 2,
       },
       {
-        title: "맛닭꼬",
-        lat: 33.450701,
-        lng: 126.57067,
-        type: ["활기찬", "카페공부불가능"],
+        cafeName:"카페4",
+        address: "제주4",
+        latitude: 33.450701,
+        longitude: 126.57067,
+        experience: [
+          "활기찬","카페공부불가능"
+        ],
         status: 1,
       },
     ];
 
-    //마커 처리
-    markerdata.forEach((el) => {
-      // 마커를 생성합니다
-      let thisLocPosition = new kakao.maps.LatLng(el.lat, el.lng);
+   //마커 처리
+   markerdata.forEach((el) => {
+    // 마커를 생성합니다
+    let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude)
 
-      var contents = el;
 
-      var thisMarker = new kakao.maps.Marker({
-        //마커가 표시 될 지도
-        map: map,
-        //마커가 표시 될 위치
-        position: thisLocPosition,
-        //마커에 hover시 나타날 title
-        title: el.title,
+    var contents = el;
 
-        clickable: true,
-      });
+      // var thisMarker = new kakao.maps.Marker({
+      //   //마커가 표시 될 지도
+      //   map: map,
+      //   //마커가 표시 될 위치
+      //   position: thisLocPosition,
+      //   //마커에 hover시 나타날 title
+      //   title: el.title,
+
+      //   clickable: true,
+      // });
 
       // 마커와 인포윈도우를 표시합니다
       displayMarker(thisLocPosition, contents);
@@ -129,22 +144,26 @@ function Map() {
       var imageSrc;
 
       //혼잡도에 따른 마커 색 지정
-      if (contents.status === 0) {
-        imageSrc = "/Asset/"; // 마커이미지의 주소입니다
-      } else if (contents.status === 1) {
-        imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png"; // 마커이미지의 주소입니다
-      } else if (contents.status === 2) {
-        imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png"; // 마커이미지의 주소입니다
-      } else {
-        imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png"; // 마커이미지의 주소입니다
+      if(contents.status === 0 ){
+        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png' // 마커이미지의 주소입니다    
+      }
+      else if(contents.status === 1){
+        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188647-52f3890b-9e1e-4308-940d-533a61301561.png' // 마커이미지의 주소입니다    
+      }
+      else if(contents.status === 2){
+        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188658-9b48de60-cdc2-4f89-8f36-c1c9d944147a.png' // 마커이미지의 주소입니다    
+      }
+      else if(contents.status === 3){
+        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188642-b003f895-e8c7-4ccc-a0f6-82dc8f1aa7a9.png' // 마커이미지의 주소입니다    
+      }
+      else{
+        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png'
       }
       //좌석 혼잡도별 마커 이미지 생성
+      
+      var imageSize = new kakao.maps.Size(30, 30), // 마커이미지의 크기입니다
+      imageOption = {offset: new kakao.maps.Point(15, 15)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-      var imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
-        imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
       // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(
@@ -161,25 +180,25 @@ function Map() {
         image: markerImage, // 마커이미지 설정
       });
 
-      let iwContent = contents.title, // 인포윈도우에 표시할 내용
-        iwRemoveable = true;
+      // let iwContent = contents.title, // 인포윈도우에 표시할 내용
+      //   iwRemoveable = true;
 
-      // 인포윈도우를 생성합니다
-      let infowindow = new kakao.maps.InfoWindow({
-        content: iwContent,
-        removable: iwRemoveable,
-      });
+      // // 인포윈도우를 생성합니다
+      // let infowindow = new kakao.maps.InfoWindow({
+      //   content: iwContent,
+      //   removable: iwRemoveable,
+      // });
 
       // 마커에 클릭이벤트를 등록합니다
       kakao.maps.event.addListener(marker, "click", function () {
         // 마커 위에 인포윈도우를 표시합니다
-        infowindow.open(map, marker);
+        // infowindow.open(map, marker);
         alert(contents.type);
         // cafeBrief(contents.title,"",contents.type,"","")
       });
 
       // 인포윈도우를 마커위에 표시합니다
-      infowindow.open(map, marker);
+      // infowindow.open(map, marker);
 
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);
@@ -218,7 +237,7 @@ function Map() {
 
   return (
     <>
-      <CafeInfoPopup />
+      <CafeInfoPopup/>
       <div className="map-searchbar-container">
         {inputLocation ? (
           <div className="map-title">
