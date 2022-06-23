@@ -15,7 +15,7 @@
   left: 16px;
   right: 16px;
   top: 608px;
-  background: #eee;
+  background: #ffffff;
   border-radius: 10px;
 }
 .menu-info {
@@ -32,6 +32,32 @@
   font-size: 12px;
   padding-bottom: 10px;
 }
+
 .menu-text {
   font-size: 10px;
+}
+
+.ownerPick{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 20px;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    border: 1px solid #FF947A;
+}
+
+.ownerPick-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0;
+    height: 114px;
+    left: 16px;
+    right: 16px;
+    top: 608px;
+    background: #ffffff;
+    border-radius: 10px;
 }
