@@ -61,7 +61,7 @@ function ReserveSeat() {
         return (
           <div
             className={
-              isCardSelected==seat.id
+              isCardSelected===seat.id
                 ? "seat-card card-selected"
                 : "seat-card card-not-selected"
             }
@@ -70,7 +70,7 @@ function ReserveSeat() {
             >
             <div className="seat-img">
               <img src="/Assets/seattest.png" alt="" />
-            </div>S
+            </div>
             <div className="seat-info">
               <div className="seat-name">{seat.seatName}</div>
               <div className="seat-status">{seat.status}</div>

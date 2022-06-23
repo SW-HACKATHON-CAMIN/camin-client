@@ -82,3 +82,64 @@
   color: white;
   margin: auto;
 }
+
+.check-seat-category {
+  margin: 10px 0;
+}
+.check-seat-category {
+  display: flex;
+  padding: 10px 0;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+.reserve-seat-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.check-seat-category-name {
+}
+.check-seat-category-complexity {
+  margin-left: auto;
+}
+.order-menu-title {
+  font-weight: bold;
+  margin: 10px 0;
+}
+.order-menu-list {
+  display: flex;
+  padding: 10px 0;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin: 10px 0;
+}
+.order-item {
+  padding: 2px 0;
+}
+.time-select-box {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  margin: 10px 0;
+}
+.visit-time-select {
+  margin-right: 10px;
+}
+.time-select-bar {
+  border: 1px solid #ee6666;
+  border-radius: 11px;
+  font-size: 14px;
+}
+.btn {
+  background: #ff947a !important;
+  border: none !important;
+}
+.total-price-box {
+  display: flex;
+  margin-right: auto !important;
+}
+.price-text {
+  font-weight: bold;
+}
+.total-price {
+  padding-left: 10px;
+}
