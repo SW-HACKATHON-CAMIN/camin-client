@@ -77,15 +77,21 @@
 .line {
   width: 50%;
 }
-.line-selected {
-  border: 1px solid rgba(0, 0, 0, 1);
+/* .line-selected {
+
 }
 .line-not-selected {
-  border: 1px solid rgba(0, 0, 0, 0.5);
-}
+
+} */
 .section-selected {
   opacity: 1;
+  width: 50%;
+  border-bottom: 1px solid rgba(0, 0, 0, 1);
+  border-collapse : collapse;
 }
 .section-not-selected {
   opacity: 0.5;
+  width: 50%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  border-collapse : collapse;
 }
