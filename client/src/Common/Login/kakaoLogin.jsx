@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -15,6 +15,7 @@ function KakaoLogin({ setIsLogin }) {
         if (response) {
           console.log(response.data);
           sessionStorage.setItem("userId", response.data.id);
+          sessionStorage.setItem("name", response.data.name);
           setIsLogin(true);
           navigate("/map");
         }
