@@ -10,8 +10,6 @@ import Map from "./UserPages/Map/Map";
 import FavoriteCafe from "./UserPages/FavoriteCafe/FavoriteCafe";
 import ReservationInfo from "./UserPages/ReservationInfo/ReservationInfo";
 import Reservation from './UserPages/ReservationPage/ReservationPage'
-import ReserveSeat from "./UserPages/ReserveSeat/ReserveSeat";
-import ReserveMenu from "./UserPages/ReserveMenu/ReserveMenu";
 import Review from "./UserPages/Review/Review";
 
 /* AdminPage Import */

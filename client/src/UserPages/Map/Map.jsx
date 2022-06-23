@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'
+import axios from "axios";
 import "./Map.css";
 import "./MapSearchBar.css";
 // import CafeInfoPopup from "../CafeInfoPopup/CafeInfoPopup";
@@ -7,7 +7,7 @@ import "./MapSearchBar.css";
 
 import { useNavigate } from "react-router-dom";
 import "../CafeInfoPopup/CafeInfoPopup.css";
-import "./filter.css"
+import "./filter.css";
 
 const { kakao } = window;
 
@@ -21,7 +21,7 @@ function Map() {
 
   //카페 간략정보 불러오기
   const [cafeInfoPopup, setCafeInfoPopup] = useState(false);
-  
+
   //필터 정보 불러오기
   const [openFilter, setOpenFilter] = useState(false);
 
@@ -31,7 +31,6 @@ function Map() {
   const [purpose, setPurpose] = useState(false);
   const [category, setCategory] = useState(false);
   const [experience, setExperience] = useState(false);
-
 
   //실제 지도 관련 코드
 
@@ -75,8 +74,8 @@ function Map() {
         let lat = latitude, // 위도
           lon = longitude; // 경도
 
-          console.log("lat:",latitude)
-          console.log("lon:",longitude)
+        console.log("lat:", latitude);
+        console.log("lon:", longitude);
 
         let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
@@ -94,15 +93,11 @@ function Map() {
 
     const markerdata = [
       {
-
         cafeName: "카페1",
         address: "제주1",
         latitude: 33.450701,
         longitude: 126.570567,
-        experience: [
-          "조용한",
-          "카페공부가능"
-        ],
+        experience: ["조용한", "카페공부가능"],
         status: 1,
       },
       {
@@ -110,40 +105,33 @@ function Map() {
         address: "제주2",
         latitude: 33.450711,
         longitude: 126.570667,
-        experience: [
-          "활기찬","카페공부가능"
-        ],
+        experience: ["활기찬", "카페공부가능"],
         status: 1,
       },
       {
-        cafeName:"카페3",
+        cafeName: "카페3",
         address: "제주3",
         latitude: 33.450601,
         longitude: 126.570657,
-        experience: [
-          "신비한","카페공부가능"
-        ],
+        experience: ["신비한", "카페공부가능"],
         status: 2,
       },
       {
-        cafeName:"카페4",
+        cafeName: "카페4",
         address: "제주4",
         latitude: 33.450701,
         longitude: 126.57067,
-        experience: [
-          "활기찬","카페공부불가능"
-        ],
+        experience: ["활기찬", "카페공부불가능"],
         status: 1,
       },
     ];
 
-   //마커 처리
-   markerdata.forEach((el) => {
-    // 마커를 생성합니다
-    let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude)
+    //마커 처리
+    markerdata.forEach((el) => {
+      // 마커를 생성합니다
+      let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude);
 
-
-    var contents = el;
+      var contents = el;
 
       // var thisMarker = new kakao.maps.Marker({
       //   //마커가 표시 될 지도
@@ -165,26 +153,26 @@ function Map() {
       var imageSrc;
 
       //혼잡도에 따른 마커 색 지정
-      if(contents.status === 0 ){
-        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png' // 마커이미지의 주소입니다    
-      }
-      else if(contents.status === 1){
-        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188647-52f3890b-9e1e-4308-940d-533a61301561.png' // 마커이미지의 주소입니다    
-      }
-      else if(contents.status === 2){
-        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188658-9b48de60-cdc2-4f89-8f36-c1c9d944147a.png' // 마커이미지의 주소입니다    
-      }
-      else if(contents.status === 3){
-        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188642-b003f895-e8c7-4ccc-a0f6-82dc8f1aa7a9.png' // 마커이미지의 주소입니다    
-      }
-      else{
-        imageSrc = 'https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png'
+      if (contents.status === 0) {
+        imageSrc =
+          "https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png"; // 마커이미지의 주소입니다
+      } else if (contents.status === 1) {
+        imageSrc =
+          "https://user-images.githubusercontent.com/80206884/175188647-52f3890b-9e1e-4308-940d-533a61301561.png"; // 마커이미지의 주소입니다
+      } else if (contents.status === 2) {
+        imageSrc =
+          "https://user-images.githubusercontent.com/80206884/175188658-9b48de60-cdc2-4f89-8f36-c1c9d944147a.png"; // 마커이미지의 주소입니다
+      } else if (contents.status === 3) {
+        imageSrc =
+          "https://user-images.githubusercontent.com/80206884/175188642-b003f895-e8c7-4ccc-a0f6-82dc8f1aa7a9.png"; // 마커이미지의 주소입니다
+      } else {
+        imageSrc =
+          "https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png";
       }
       //좌석 혼잡도별 마커 이미지 생성
-      
-      var imageSize = new kakao.maps.Size(30, 30), // 마커이미지의 크기입니다
-      imageOption = {offset: new kakao.maps.Point(15, 15)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
+      var imageSize = new kakao.maps.Size(30, 30), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(15, 15) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
       // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(
@@ -227,44 +215,38 @@ function Map() {
     }
   }, [latitude, longitude]);
 
-
   //필터 값에 따른 카테고리 정보 받아오기(카테고리 API)
-  useEffect(()=>{
-      let visiterNumArr =[];
-      let purposeArr =[];
-      let categoryArr =[];
-      let experienceArr =[];
+  useEffect(() => {
+    let visiterNumArr = [];
+    let purposeArr = [];
+    let categoryArr = [];
+    let experienceArr = [];
 
-      axios.get("/api/category").then(
-          (response) => {
-              for(let i = 0; i < response.data.length; i++){
-                  if(response.data[i].type === 0){
-                      visiterNumArr.push(response.data[i])
-                      console.log(response.data[i])
-                  }
-                  if(response.data[i].type === 1){
-                      purposeArr.push(response.data[i])
-                      console.log(response.data[i])
-                  }
-                  if(response.data[i].type === 2){
-                      categoryArr.push(response.data[i])
-                      console.log(response.data[i])
-                  }
-                  if(response.data[i].type === 3){
-                      experienceArr.push(response.data[i])
-                      console.log(response.data[i])
-                  }
-                  setVisiterNum(visiterNumArr);
-                  setPurpose(purposeArr);
-                  setCategory(categoryArr);
-                  setExperience(experienceArr);
-              }
-          }
-      )
-  },[openFilter])
-
-
-
+    axios.get("/api/category").then((response) => {
+      for (let i = 0; i < response.data.length; i++) {
+        if (response.data[i].type === 0) {
+          visiterNumArr.push(response.data[i]);
+          console.log(response.data[i]);
+        }
+        if (response.data[i].type === 1) {
+          purposeArr.push(response.data[i]);
+          console.log(response.data[i]);
+        }
+        if (response.data[i].type === 2) {
+          categoryArr.push(response.data[i]);
+          console.log(response.data[i]);
+        }
+        if (response.data[i].type === 3) {
+          experienceArr.push(response.data[i]);
+          console.log(response.data[i]);
+        }
+        setVisiterNum(visiterNumArr);
+        setPurpose(purposeArr);
+        setCategory(categoryArr);
+        setExperience(experienceArr);
+      }
+    });
+  }, [openFilter]);
 
   function onChangeLocation(e) {
     const script = document.createElement("script");
@@ -296,32 +278,34 @@ function Map() {
     }
   }
 
-
   //마킹 클릭 시 간단한 소개 창 띄우기
   const showCafeInfoPopup = () => {
-    if(!cafeInfoPopup){
-      setCafeInfoPopup(true)
+    if (!cafeInfoPopup) {
+      setCafeInfoPopup(true);
+    } else {
+      setCafeInfoPopup(false);
     }
-    else{
-      setCafeInfoPopup(false)
-    }
-  }
+  };
 
   /**팝업 창*/
-  function CafeInfoPopup() { //, cafeName, address, type, status, img API개발되면 추가하기
+  function CafeInfoPopup() {
+    //, cafeName, address, type, status, img API개발되면 추가하기
     const navigate = useNavigate();
-  
+
     const cafeInfoClose = () => {
       setCafeInfoPopup(false);
     };
-  
+
     const gotoReservationPage = () => {
       navigate("/reservation");
     };
-  
+
     return (
       <>
-        <div className={cafeInfoPopup ? "show-background" : "hide-background"} onClick={cafeInfoClose}></div>
+        <div
+          className={cafeInfoPopup ? "show-background" : "hide-background"}
+          onClick={cafeInfoClose}
+        ></div>
         <div className={cafeInfoPopup ? "show-cafe-info" : "hide-cafe-info"}>
           <div className="cafe-info-items">
             <div className="cafe-name-img-wrap">
@@ -352,121 +336,106 @@ function Map() {
 
   //필터링 클릭 시 간단한 소개 창 띄우기
   const showFilter = () => {
-    if(!cafeInfoPopup){
-      setOpenFilter(true)
+    if (!openFilter) {
+      setOpenFilter(true);
+    } else {
+      setOpenFilter(false);
     }
-    else{
-      setOpenFilter(false)
-    }
-  }
-
+  };
 
   /**필터창**/
   function Filter() {
-
     const cafeInfoClose = () => {
-        setOpenFilter(false);
-      };
+      setOpenFilter(false);
+    };
 
-   
-  return (
-    <div className={openFilter ? "show-background" : "hide-background"} onClick={cafeInfoClose}>
+    return (
+      <div
+        className={openFilter ? "show-background" : "hide-background"}
+        onClick={cafeInfoClose}
+      >
         <div className={openFilter ? "show-filter" : "hide-filter"}>
-        <div className="cafe-filter-items">
-
-            {
-                !visiterNum?
-                <></>:
-                <div className='cafe-filter-each-items'>
-                <span>방문 인원</span><br/>
+          <div className="cafe-filter-items">
+            {!visiterNum ? (
+              <></>
+            ) : (
+              <div className="cafe-filter-each-items">
+                <span>방문 인원</span>
+                <br />
                 <div className="cafe-categories">
-                    {
-                        visiterNum.map(thisData => (
-                            <div id={thisData.id} className='category-item'>
-                                {thisData.name}
-                            </div>
-                        ))
-                    }
+                  {visiterNum.map((thisData) => (
+                    <div id={thisData.id} className="category-item">
+                      {thisData.name}
+                    </div>
+                  ))}
                 </div>
-                <hr/>
-                </div>
-            }
+                <hr />
+              </div>
+            )}
 
-            {
-                !purpose?
-                <></>:
-                <div className='cafe-filter-each-items'>
+            {!purpose ? (
+              <></>
+            ) : (
+              <div className="cafe-filter-each-items">
                 방문 목적
                 <div className="cafe-categories">
-                    {
-                        purpose.map(thisData => (
-                            <div id={thisData.id} className='category-item'>
-                                {thisData.name}
-                            </div>
-                        ))
-                    }
+                  {purpose.map((thisData) => (
+                    <div id={thisData.id} className="category-item">
+                      {thisData.name}
+                    </div>
+                  ))}
                 </div>
-                <hr/>
-                </div>
-            }
+                <hr />
+              </div>
+            )}
 
-            {
-                !category?
-                <></>:
-                <div className='cafe-filter-each-items'>
-                    카테고리
-                    <div className="cafe-categories">
-                    {
-                        category.map(thisData => (
-                            <div id={thisData.id} className='category-item'>
-                                {thisData.name}
-                            </div>
-                        ))
-                    }
+            {!category ? (
+              <></>
+            ) : (
+              <div className="cafe-filter-each-items">
+                카테고리
+                <div className="cafe-categories">
+                  {category.map((thisData) => (
+                    <div id={thisData.id} className="category-item">
+                      {thisData.name}
                     </div>
-                    <hr/>
-                    </div>
-            }
-         
-            {
-                !experience?
-                <></>:
-                <div className='cafe-filter-each-items'>
+                  ))}
+                </div>
+                <hr />
+              </div>
+            )}
+
+            {!experience ? (
+              <></>
+            ) : (
+              <div className="cafe-filter-each-items">
                 분위기
                 <div className="cafe-categories">
-                    {
-                        experience.map(thisData => (
-                            <div id={thisData.id} className='category-item'>
-                                {thisData.name}
-                            </div>
-                        ))
-                    }
+                  {experience.map((thisData) => (
+                    <div id={thisData.id} className="category-item">
+                      {thisData.name}
+                    </div>
+                  ))}
                 </div>
-                </div>
-            }
-            
-            <div className='cafe-filter-each-items'>
-            <div className="cafe-categories">
-                <div className="filter-reset-btn">
-                    필터 초기화
-                </div>
-                <div className='filter-apply-btn'>
-                    적용하기
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
-    </div>
-  )
-}
+              </div>
+            )}
 
-
+            <div className="cafe-filter-each-items">
+              <div className="cafe-categories">
+                <div className="filter-reset-btn">필터 초기화</div>
+                <div className="filter-apply-btn">적용하기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <CafeInfoPopup open={cafeInfoPopup}/>
-      <Filter/>
+      <CafeInfoPopup open={cafeInfoPopup} />
+      <Filter />
       <div className="map-searchbar-container">
         {inputLocation ? (
           <div className="map-title">
@@ -484,9 +453,9 @@ function Map() {
           ></input>
         </div>
       </div>
-      
+
       <div id="filter-btn" onClick={showFilter}>
-        <img src="/Assets/map/filter.png" alt="필터링"/>
+        <img src="/Assets/map/filter.png" alt="필터링" />
       </div>
       <div id="map"></div>
     </>
