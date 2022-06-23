@@ -1,7 +1,7 @@
 import React from "react";
 
 /* CSS Import */
-import "./Login.css";
+import "./login.css";
 
 import { KAKAO_AUTH_URL } from "./KakaoAuth";
 

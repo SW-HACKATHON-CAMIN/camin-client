@@ -22,7 +22,7 @@ import UpdateSeat from "./AdminPages/UpdateSeat/UpdateSeat";
 import Login from "./Common/Login/Login";
 import SignUp from "./Common/SignUp/SignUp";
 import MyInfo from "./Common/MyInfo/MyInfo";
-import KakaoLogin from "./Common/Login/KakaoLogin";
+// import KakaoLogin from "./Common/Login/KakaoLogin";
 import PageNotFound from "./Common/PageNotFound/PageNotFound";
 
 const queryClient = new QueryClient();
@@ -77,10 +77,10 @@ function App() {
           <Route path="/admin/updateseat" element={<UpdateSeat />} />
 
           {/* Common */}
-          <Route
+          {/* <Route
             path="/oauth/kakao/callback"
             element={<KakaoLogin setIsLogin={setIsLogin} />}
-          />
+          /> */}
           <Route path="/login" element={<MainLayout View={Login} />}></Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/*" element={<PageNotFound />} />
