@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import ReserveSeat from "../ReserveSeat/ReserveSeat";
 import ReserveMenu from "../ReserveMenu/ReserveMenu";
@@ -11,16 +12,43 @@ function ReservationPage() {
   const [isReserveSeatSelected, setIsReserveSeatSelected] = useState(true);
 
   const handleOrderMenuSelect = () => {
-    setIsOrderMenuSelected(true)
-    setIsReserveSeatSelected(false)
+    setIsOrderMenuSelected(true);
+    setIsReserveSeatSelected(false);
     //setIsOrderMenuSelected((isOrderMenuSelected) => !isOrderMenuSelected);
   };
 
   const handleReserveSeatSelect = () => {
-    setIsReserveSeatSelected(true)
-    setIsOrderMenuSelected(false)
+    setIsReserveSeatSelected(true);
+    setIsOrderMenuSelected(false);
     //setIsReserveSeatSelected((isReserveSeatSelected) => !isReserveSeatSelected);
-  }
+  };
+
+  const handleSelectFavorite = () => {
+    setIsFavorite(true);
+    console.log("찜 완료");
+    // 찜하기 API 넣기
+    // axios
+    //   .post("/api/user/like", {
+    //     cafeId: 1,
+    //     userId: sessionStorage.getItem("userId"),
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   });
+  };
+  const handleCancelFavorite = () => {
+    setIsFavorite(false);
+    console.log("찜 해제");
+    // 찜해제 API 넣기
+        // axios
+    //   .delete("/api/user/like", {
+    //     cafeId: 1,
+    //     userId: sessionStorage.getItem("userId"),
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   });
+  };
 
   return (
     <div className="reservationpage-wrapper">
@@ -36,15 +64,17 @@ function ReservationPage() {
             </div>
           </div>
           <div className="reservationpage-favorite-select-btn">
-            {isFavorite ? (
+            {isFavorite === true ? (
               <img
                 src="/Assets/FavoriteSelectBtn/FavoriteSelected.png"
                 alt=""
+                onClick={handleCancelFavorite}
               />
             ) : (
               <img
                 src="/Assets/FavoriteSelectBtn/FavoriteNotSelected.png"
                 alt=""
+                onClick={handleSelectFavorite}
               />
             )}
           </div>
