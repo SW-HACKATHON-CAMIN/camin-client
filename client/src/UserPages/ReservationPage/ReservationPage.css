@@ -1,0 +1,103 @@
+.reservationpage-wrapper {
+  width: 100%;
+  height: 100vh;
+}
+.reservationpage-cafe-main-img {
+  width: 100%;
+}
+.reservationpage-cafe-info {
+  width: 90%;
+  padding: 20px 5px;
+  margin: auto;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 45%;
+  background: white;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+}
+.reservationpage-name-address-favoritebtn-wrap {
+  display: flex;
+}
+.reservationpage-name-address-wrap {
+  text-align: center;
+  padding-left: 30px;
+  flex-grow: 2;
+}
+.reservationpage-cafe-name {
+  padding: 0 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.reservationpage-cafe-address {
+  padding: 0 5px;
+  margin: 15px 0;
+  font-size: 12px;
+  color: gray;
+}
+.reservationpage-favorite-select-btn {
+  margin: 0 5px;
+}
+.reservationpage-cafe-categories {
+  display: flex;
+  flex-wrap: wrap;
+}
+.reservationpage-category-item {
+  display: flex;
+  flex-basis:content;
+  flex-grow: 0;
+  flex-shrink: 2;
+  /* flex: 1 1 50%; */
+  justify-content: center;
+  align-items: center;
+  padding: 2px 14px;
+  margin: 3px 2px;
+  /* height: 25px; */
+  font-size: 14px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 17px;
+
+  /* display: flex;
+  flex: 1 1 30%;
+  justify-content: center;
+  align-items: center;
+  margin: 3px 2px;
+  padding: 2px 14px;
+  height: 25px;
+  font-size: 14px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 17px; */
+}
+
+.reserve-section {
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  bottom: 27%;
+}
+.section-bar {
+  display: flex;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
+}
+.section-item {
+  text-align: center;
+  width: 50%;
+  padding: 5px 10px;
+  color: black;
+}
+.line {
+  width: 50%;
+}
+.line-selected {
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+.line-not-selected {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.section-selected {
+  opacity: 1;
+}
+.section-not-selected {
+  opacity: 0.5;
+}

@@ -9,6 +9,7 @@ import Main from "./UserPages/Main/Main";
 import Map from "./UserPages/Map/Map";
 import FavoriteCafe from "./UserPages/FavoriteCafe/FavoriteCafe";
 import ReservationInfo from "./UserPages/ReservationInfo/ReservationInfo";
+import Reservation from './UserPages/ReservationPage/ReservationPage'
 import ReserveSeat from "./UserPages/ReserveSeat/ReserveSeat";
 import ReserveMenu from "./UserPages/ReserveMenu/ReserveMenu";
 import Review from "./UserPages/Review/Review";
@@ -68,8 +69,9 @@ function App() {
               )
             }
           />
-          <Route path="/reserveseat" element={<ReserveSeat />} />
-          <Route path="/reservemenu" element={<ReserveMenu />} />
+          <Route path="/reservation" element={<Reservation />} />
+          {/* <Route path="/reserveseat" element={<ReserveSeat />} />
+          <Route path="/reservemenu" element={<ReserveMenu />} /> */}
           <Route path="/review" element={<Review />} />
           {/* AdminPages */}
           <Route path="/admin/cafeinfo" element={<CafeInfo />} />
