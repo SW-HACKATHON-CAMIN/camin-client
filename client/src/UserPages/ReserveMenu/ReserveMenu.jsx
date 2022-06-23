@@ -108,7 +108,7 @@ function ReserveMenu() {
     // })
 
     //담은 상품이 없는 경우(새로 생성)
-    if (!allItemList || allItemList == undefined) {
+    if (!allItemList || allItemList === undefined) {
       allItemList = [{ itemId: targetId, itemNum: 1, itemPrice: targetPrice }];
       //로컬에 저장
       localStorage.setItem("itemList", JSON.stringify(allItemList));
@@ -118,7 +118,7 @@ function ReserveMenu() {
     else {
       allItemList.map((thisData) => {
         //동일한 상품이 있는 경우 수량 갱신
-        if (thisData.itemId == targetId) {
+        if (thisData.itemId === targetId) {
           thisData.itemNum += 1;
           different = false;
         }

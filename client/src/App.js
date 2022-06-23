@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Reset } from "styled-reset";
@@ -9,7 +9,7 @@ import Main from "./UserPages/Main/Main";
 import Map from "./UserPages/Map/Map";
 import FavoriteCafe from "./UserPages/FavoriteCafe/FavoriteCafe";
 import ReservationInfo from "./UserPages/ReservationInfo/ReservationInfo";
-import Reservation from './UserPages/ReservationPage/ReservationPage'
+import Reservation from "./UserPages/ReservationPage/ReservationPage";
 
 /* AdminPage Import */
 import CafeInfo from "./AdminPages/CafeInfo/CafeInfo";
@@ -27,6 +27,14 @@ const queryClient = new QueryClient();
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("userId")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -77,7 +85,16 @@ function App() {
             path="/oauth/kakao/callback"
             element={<KakaoLogin setIsLogin={setIsLogin} />}
           />
-          <Route path="/login" element={<MainLayout View={Login} />}></Route>
+          <Route
+            path="/login"
+            element={
+              isLogin === true ? (
+                <MainLayout View={Map} Menu={"Map"} />
+              ) : (
+                <MainLayout View={Login} />
+              )
+            }
+          ></Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
