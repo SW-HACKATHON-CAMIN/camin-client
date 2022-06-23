@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CafeInfoPopup.css";
 
-function CafeInfoPopup({ cafeName, address, type, status, img }) {
+function CafeInfoPopup({ open}) { //, cafeName, address, type, status, img 
   const navigate = useNavigate();
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(()=>{
+    setIsOpen(open);
+  },[])
 
   const cafeInfoClose = () => {
     setIsOpen(false);

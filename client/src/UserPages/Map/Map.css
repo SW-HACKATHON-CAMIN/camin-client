@@ -3,3 +3,14 @@
   height: 100vh;
   z-index: 0;
 }
+
+#filter-btn{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 160px;
+  left: 50vw;
+  width: 10px;
+  z-index: 2;
+}

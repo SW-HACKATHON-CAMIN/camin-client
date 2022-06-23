@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-
+import axios from 'axios'
 import "./Map.css";
 import "./MapSearchBar.css";
-import CafeInfoPopup from "../CafeInfoPopup/CafeInfoPopup";
-import Filter from "./Filter";
+// import CafeInfoPopup from "../CafeInfoPopup/CafeInfoPopup";
+// import Filter from "./Filter";
+
+import { useNavigate } from "react-router-dom";
+import "../CafeInfoPopup/CafeInfoPopup.css";
+import "./filter.css"
 
 const { kakao } = window;
 
@@ -16,7 +20,20 @@ function Map() {
   const [isFirst, setIsFirst] = useState(false);
 
   //카페 간략정보 불러오기
-  const [modalShow, setModalShow] = useState(false);
+  const [cafeInfoPopup, setCafeInfoPopup] = useState(false);
+  
+  //필터 정보 불러오기
+  const [openFilter, setOpenFilter] = useState(false);
+
+  //필터용 상태관리
+
+  const [visiterNum, setVisiterNum] = useState(false);
+  const [purpose, setPurpose] = useState(false);
+  const [category, setCategory] = useState(false);
+  const [experience, setExperience] = useState(false);
+
+
+  //실제 지도 관련 코드
 
   let watcherID = navigator.geolocation.watchPosition(function (position) {
     setLatitude(position.coords.latitude);
@@ -197,7 +214,8 @@ function Map() {
       kakao.maps.event.addListener(marker, "click", function () {
         // 마커 위에 인포윈도우를 표시합니다
         // infowindow.open(map, marker);
-        alert(contents.type);
+        // alert(contents.type);
+        showCafeInfoPopup();
         // cafeBrief(contents.title,"",contents.type,"","")
       });
 
@@ -208,6 +226,45 @@ function Map() {
       map.setCenter(locPosition);
     }
   }, [latitude, longitude]);
+
+
+  //필터 값에 따른 카테고리 정보 받아오기(카테고리 API)
+  useEffect(()=>{
+      let visiterNumArr =[];
+      let purposeArr =[];
+      let categoryArr =[];
+      let experienceArr =[];
+
+      axios.get("/api/category").then(
+          (response) => {
+              for(let i = 0; i < response.data.length; i++){
+                  if(response.data[i].type === 0){
+                      visiterNumArr.push(response.data[i])
+                      console.log(response.data[i])
+                  }
+                  if(response.data[i].type === 1){
+                      purposeArr.push(response.data[i])
+                      console.log(response.data[i])
+                  }
+                  if(response.data[i].type === 2){
+                      categoryArr.push(response.data[i])
+                      console.log(response.data[i])
+                  }
+                  if(response.data[i].type === 3){
+                      experienceArr.push(response.data[i])
+                      console.log(response.data[i])
+                  }
+                  setVisiterNum(visiterNumArr);
+                  setPurpose(purposeArr);
+                  setCategory(categoryArr);
+                  setExperience(experienceArr);
+              }
+          }
+      )
+  },[openFilter])
+
+
+
 
   function onChangeLocation(e) {
     const script = document.createElement("script");
@@ -239,9 +296,176 @@ function Map() {
     }
   }
 
+
+  //마킹 클릭 시 간단한 소개 창 띄우기
+  const showCafeInfoPopup = () => {
+    if(!cafeInfoPopup){
+      setCafeInfoPopup(true)
+    }
+    else{
+      setCafeInfoPopup(false)
+    }
+  }
+
+  /**팝업 창*/
+  function CafeInfoPopup() { //, cafeName, address, type, status, img API개발되면 추가하기
+    const navigate = useNavigate();
+  
+    const cafeInfoClose = () => {
+      setCafeInfoPopup(false);
+    };
+  
+    const gotoReservationPage = () => {
+      navigate("/reservation");
+    };
+  
+    return (
+      <>
+        <div className={cafeInfoPopup ? "show-background" : "hide-background"} onClick={cafeInfoClose}></div>
+        <div className={cafeInfoPopup ? "show-cafe-info" : "hide-cafe-info"}>
+          <div className="cafe-info-items">
+            <div className="cafe-name-img-wrap">
+              <div className="name-address-wrap">
+                <div className="cafe-name">오츠에스프레소</div>
+                <div className="cafe-address">
+                  서울특별시 마포구 독막로 14길 32
+                </div>
+                <div className="cafe-categories">
+                  <div className="category-item">혼자가기 적합</div>
+                  <div className="category-item">수다</div>
+                  <div className="category-item">베이커리</div>
+                  <div className="category-item">애견동반</div>
+                </div>
+              </div>
+              <div className="cafe-img">
+                <img src="/Assets/test.png" alt="" />
+              </div>
+            </div>
+          </div>
+          <div className="reserve-seat-btn" onClick={gotoReservationPage}>
+            좌석 예약하기
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  //필터링 클릭 시 간단한 소개 창 띄우기
+  const showFilter = () => {
+    if(!cafeInfoPopup){
+      setOpenFilter(true)
+    }
+    else{
+      setOpenFilter(false)
+    }
+  }
+
+
+  /**필터창**/
+  function Filter() {
+
+    const cafeInfoClose = () => {
+        setOpenFilter(false);
+      };
+
+   
+  return (
+    <div className={openFilter ? "show-background" : "hide-background"} onClick={cafeInfoClose}>
+        <div className={openFilter ? "show-filter" : "hide-filter"}>
+        <div className="cafe-filter-items">
+
+            {
+                !visiterNum?
+                <></>:
+                <div className='cafe-filter-each-items'>
+                <span>방문 인원</span><br/>
+                <div className="cafe-categories">
+                    {
+                        visiterNum.map(thisData => (
+                            <div id={thisData.id} className='category-item'>
+                                {thisData.name}
+                            </div>
+                        ))
+                    }
+                </div>
+                <hr/>
+                </div>
+            }
+
+            {
+                !purpose?
+                <></>:
+                <div className='cafe-filter-each-items'>
+                방문 목적
+                <div className="cafe-categories">
+                    {
+                        purpose.map(thisData => (
+                            <div id={thisData.id} className='category-item'>
+                                {thisData.name}
+                            </div>
+                        ))
+                    }
+                </div>
+                <hr/>
+                </div>
+            }
+
+            {
+                !category?
+                <></>:
+                <div className='cafe-filter-each-items'>
+                    카테고리
+                    <div className="cafe-categories">
+                    {
+                        category.map(thisData => (
+                            <div id={thisData.id} className='category-item'>
+                                {thisData.name}
+                            </div>
+                        ))
+                    }
+                    </div>
+                    <hr/>
+                    </div>
+            }
+         
+            {
+                !experience?
+                <></>:
+                <div className='cafe-filter-each-items'>
+                분위기
+                <div className="cafe-categories">
+                    {
+                        experience.map(thisData => (
+                            <div id={thisData.id} className='category-item'>
+                                {thisData.name}
+                            </div>
+                        ))
+                    }
+                </div>
+                </div>
+            }
+            
+            <div className='cafe-filter-each-items'>
+            <div className="cafe-categories">
+                <div className="filter-reset-btn">
+                    필터 초기화
+                </div>
+                <div className='filter-apply-btn'>
+                    적용하기
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+  )
+}
+
+
+
   return (
     <>
-      <CafeInfoPopup/>
+      <CafeInfoPopup open={cafeInfoPopup}/>
       <Filter/>
       <div className="map-searchbar-container">
         {inputLocation ? (
@@ -259,6 +483,10 @@ function Map() {
             onChange={onChangeLocation}
           ></input>
         </div>
+      </div>
+      
+      <div id="filter-btn" onClick={showFilter}>
+        <img src="/Assets/map/filter.png" alt="필터링"/>
       </div>
       <div id="map"></div>
     </>
