@@ -362,9 +362,9 @@ function Map() {
               <div className="cafe-filter-each-items">
                 <span>방문 인원</span>
                 <br />
-                <div className="cafe-categories">
+                <div className="cafe-filter-categories">
                   {visiterNum.map((thisData) => (
-                    <div id={thisData.id} className="category-item">
+                    <div id={thisData.id} className="filter-category-item">
                       {thisData.name}
                     </div>
                   ))}
@@ -378,9 +378,9 @@ function Map() {
             ) : (
               <div className="cafe-filter-each-items">
                 방문 목적
-                <div className="cafe-categories">
+                <div className="cafe-filter-categories">
                   {purpose.map((thisData) => (
-                    <div id={thisData.id} className="category-item">
+                    <div id={thisData.id} className="filter-category-item">
                       {thisData.name}
                     </div>
                   ))}
@@ -394,9 +394,9 @@ function Map() {
             ) : (
               <div className="cafe-filter-each-items">
                 카테고리
-                <div className="cafe-categories">
+                <div className="cafe-filter-categories">
                   {category.map((thisData) => (
-                    <div id={thisData.id} className="category-item">
+                    <div id={thisData.id} className="filter-category-item">
                       {thisData.name}
                     </div>
                   ))}
@@ -410,9 +410,9 @@ function Map() {
             ) : (
               <div className="cafe-filter-each-items">
                 분위기
-                <div className="cafe-categories">
+                <div className="cafe-filter-categories">
                   {experience.map((thisData) => (
-                    <div id={thisData.id} className="category-item">
+                    <div id={thisData.id} className="filter-category-item">
                       {thisData.name}
                     </div>
                   ))}
@@ -421,10 +421,10 @@ function Map() {
             )}
 
             <div className="cafe-filter-each-items">
-              <div className="cafe-categories">
-                <div className="filter-reset-btn">필터 초기화</div>
-                <div className="filter-apply-btn">적용하기</div>
-              </div>
+                <div className="cafe-filter-categories">
+                  <div className="filter-reset-btn">필터 초기화</div>
+                  <div className="filter-apply-btn">적용하기</div>
+                </div>
             </div>
           </div>
         </div>
@@ -441,7 +441,7 @@ function Map() {
           <div className="map-title">
             "{inputLocation}" <span className="text-cafe">카페</span>
           </div>
-        ) : (
+          ):(
           <div className="map-title">카페찾기</div>
         )}
         <div className="text-box-wrapper">

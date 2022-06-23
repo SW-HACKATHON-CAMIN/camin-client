@@ -97,9 +97,6 @@ function ReserveMenu() {
           else{
             thisData.num = 1;
           }
-          
-
-
         }
       })
     }
