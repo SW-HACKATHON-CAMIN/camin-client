@@ -167,7 +167,7 @@ function Map() {
         position: locPosition,
         clickable: true,
         image: markerImage, // 마커이미지 설정
-        title: contents.id,
+        // title: contents.id,
       });
 
       // let iwContent = contents.title, // 인포윈도우에 표시할 내용
@@ -181,7 +181,7 @@ function Map() {
 
       // 마커에 클릭이벤트를 등록합니다
       kakao.maps.event.addListener(marker, "click", function () {
-        setSelectedMarker(contents.id);
+        // setSelectedMarker(contents.id);
         showCafeInfoPopup();
         // cafeBrief(contents.title,"",contents.type,"","")
       });
@@ -227,9 +227,28 @@ function Map() {
     });
   }, [openFilter]);
 
-  useEffect(() => {
-    showCafeInfoPopup();
-  }, [selectedMarker]);
+  // useEffect(() => {
+  //   showCafeInfoPopup();
+  // }, [selectedMarker]);
+
+
+  const dumpData = [
+    {
+      address: '서울 마포구 홍익로6길 15 삼주빌딩',
+      cafeName: '공미학 마포홍대점',
+      category : [
+        {
+          'id':0
+        }
+      ],
+      id: 0,
+      mainImage: "https://user-images.githubusercontent.com/80206884/175315506-ee3c9ce2-3bf3-499a-b120-17dc7d8a7748.png",
+      status: 2,
+
+    }
+  ]
+
+
 
   const getCafeList = (latitude, longitude, categoryIds) => {
     var result = "";
@@ -308,7 +327,7 @@ function Map() {
   };
 
   /**팝업 창*/
-  function CafeInfoPopup(props) {
+  function CafeInfoPopup() {
     //, cafeName, address, type, status, img API개발되면 추가하기
     const navigate = useNavigate();
 
@@ -339,33 +358,26 @@ function Map() {
           onClick={cafeInfoClose}
         ></div>
         <div className={cafeInfoPopup ? "show-cafe-info" : "hide-cafe-info"}>
-          {!mapInfo ? (
-            <></>
-          ) : (
-            <>
-              {mapInfo.map((thisData) => {
-                if (thisData.id == selectedMarker) {
-                  {
-                    console.log(thisData.cafeName);
-                  }
+         
                   <div className="cafe-info-items">
                     <div className="cafe-name-img-wrap">
+                      <div className="status-icon">혼잡</div>
                       <div className="name-address-wrap">
-                        <div className="cafe-name">{thisData.cafeName}</div>
-                        <div className="cafe-address">{thisData.address}</div>
+                        <div className="cafe-name">공미학 마포홍대점</div>
+                        <div className="cafe-address">서울 마포구 홍익로6길 15 삼주빌딩</div>
                         <div className="cafe-categories">
-                          {/* <PrintCategories/> */}
+                          <div className="category-item">혼자가기 적합</div>
+                          <div className="category-item">수다</div>
+                          <div className="category-item">베이커리</div>
+                          <div className="category-item">애견동반</div>
                         </div>
                       </div>
                       <div className="cafe-img">
-                        <img src={thisData.mainImage} alt="" />
+                        <img src="https://user-images.githubusercontent.com/80206884/175315506-ee3c9ce2-3bf3-499a-b120-17dc7d8a7748.png" alt=""  style={{width:"100px"}}/>
                       </div>
                     </div>
                   </div>;
-                }
-              })}
-            </>
-          )}
+
           <div className="reserve-seat-btn" onClick={gotoReservationPage}>
             좌석 예약하기
           </div>
@@ -491,7 +503,7 @@ function Map() {
   return (
     <>
       <CafeInfoPopup open={cafeInfoPopup} />
-      <Filter />
+      {/* <Filter /> */}
       <div className="map-searchbar-container">
         {inputLocation ? (
           <div className="map-title">
