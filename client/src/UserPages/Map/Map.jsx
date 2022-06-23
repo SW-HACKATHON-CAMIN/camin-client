@@ -40,7 +40,6 @@ function Map() {
   //선택된 좌표
   const [selectedMarker, setSelectedMarker] = useState(false);
 
-
   //실제 지도 관련 코드
 
   let watcherID = navigator.geolocation.watchPosition(function (position) {
@@ -72,7 +71,10 @@ function Map() {
         let lat = 37.5578747542407, // 위도
           lon = 126.927104943545; // 경도
 
-        let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        let locPosition = new kakao.maps.LatLng(
+            37.5578747542407,
+            126.927104943545
+          ), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
@@ -95,25 +97,25 @@ function Map() {
         //지도 정보 받아오기
         getCafeList(lat, lon, categoryId);
 
-        
-
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-      let locPosition = new kakao.maps.LatLng(37.5578747542407, 126.927104943545),
+      let locPosition = new kakao.maps.LatLng(
+          37.5578747542407,
+          126.927104943545
+        ),
         message = "geolocation을 사용할수 없어요..";
 
-        //지도 정보 받아오기
-        getCafeList(37.5578747542407 , 126.927104943545, categoryId);
+      //지도 정보 받아오기
+      getCafeList(37.5578747542407, 126.927104943545, categoryId);
 
       displayMarker(locPosition, message);
     }
 
-
-    if(!mapInfo ===false){
+    if (!mapInfo === false) {
       //마커 처리
       mapInfo.forEach((el) => {
         // 마커를 생성합니다
@@ -125,7 +127,6 @@ function Map() {
         displayMarker(thisLocPosition, contents);
       });
     }
-    
 
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, contents) {
@@ -166,7 +167,7 @@ function Map() {
         position: locPosition,
         clickable: true,
         image: markerImage, // 마커이미지 설정
-        title: contents.id
+        title: contents.id,
       });
 
       // let iwContent = contents.title, // 인포윈도우에 표시할 내용
@@ -180,7 +181,7 @@ function Map() {
 
       // 마커에 클릭이벤트를 등록합니다
       kakao.maps.event.addListener(marker, "click", function () {
-        setSelectedMarker(contents.id)
+        setSelectedMarker(contents.id);
         showCafeInfoPopup();
         // cafeBrief(contents.title,"",contents.type,"","")
       });
@@ -226,48 +227,46 @@ function Map() {
     });
   }, [openFilter]);
 
+  useEffect(() => {
+    showCafeInfoPopup();
+  }, [selectedMarker]);
 
-  useEffect(()=>{
-    showCafeInfoPopup()
-  },[selectedMarker])
+  const getCafeList = (latitude, longitude, categoryIds) => {
+    var result = "";
+    console.log(latitude, longitude, categoryIds);
 
-
-  const getCafeList = (latitude,longitude,categoryIds)=>{
-    var result ="";
-    console.log(latitude,longitude,categoryIds)
-
-    if(!categoryIds){
- 
-      axios.get(`/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=`).then(
-        (response) =>{
-          setMapInfo(response.data);
-          result = response.data;
-          console.log("response.data",result)
-          return result;
-        }
-      ).catch(
-        (error)=>{
-          console.log(error);
-        }
-      )
-    }
-    else{
-      axios.get(`/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=${categoryIds}`).then(
-        (response) =>{
-          setMapInfo(response.data);
-          result = response.data;
-          console.log("response.data",result)
-          return result;
-        }
-        ).catch(
-          (error)=>{
-            console.log(error);
-          }
+    if (!categoryIds) {
+      axios
+        .get(
+          `/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=`
         )
+        .then((response) => {
+          setMapInfo(response.data);
+          result = response.data;
+          console.log("response.data", result);
+          return result;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(
+          `/api/cafe/?latitude=${latitude}&longitude=${longitude}&categoryIds=${JSON.stringify(
+            categoryIds
+          )}`
+        )
+        .then((response) => {
+          setMapInfo(response.data);
+          result = response.data;
+          console.log("response.data", result);
+          return result;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-    
-  }
-
+  };
 
   function onChangeLocation(e) {
     const script = document.createElement("script");
@@ -330,8 +329,8 @@ function Map() {
     //     }
     //   }
     // }
-    console.log(selectedMarker)
-    console.log(mapInfo)
+    console.log(selectedMarker);
+    console.log(mapInfo);
 
     return (
       <>
@@ -340,37 +339,33 @@ function Map() {
           onClick={cafeInfoClose}
         ></div>
         <div className={cafeInfoPopup ? "show-cafe-info" : "hide-cafe-info"}>
-          {
-            !mapInfo?
-            <></>:
+          {!mapInfo ? (
+            <></>
+          ) : (
             <>
-            {
-            mapInfo.map((thisData)=>{
-              if(thisData.id == selectedMarker){
-                {
-                  console.log(thisData.cafeName)
+              {mapInfo.map((thisData) => {
+                if (thisData.id == selectedMarker) {
+                  {
+                    console.log(thisData.cafeName);
+                  }
+                  <div className="cafe-info-items">
+                    <div className="cafe-name-img-wrap">
+                      <div className="name-address-wrap">
+                        <div className="cafe-name">{thisData.cafeName}</div>
+                        <div className="cafe-address">{thisData.address}</div>
+                        <div className="cafe-categories">
+                          {/* <PrintCategories/> */}
+                        </div>
+                      </div>
+                      <div className="cafe-img">
+                        <img src={thisData.mainImage} alt="" />
+                      </div>
+                    </div>
+                  </div>;
                 }
-                <div className="cafe-info-items">
-                  <div className="cafe-name-img-wrap">
-                    <div className="name-address-wrap">
-                      <div className="cafe-name">{thisData.cafeName}</div>
-                      <div className="cafe-address">
-                        {thisData.address}
-                      </div>
-                      <div className="cafe-categories">
-                       {/* <PrintCategories/> */}
-                      </div>
-                    </div>
-                    <div className="cafe-img">
-                      <img src={thisData.mainImage}alt="" />
-                    </div>
-                  </div>
-                </div>
-              }
-            })
-          }
+              })}
             </>
-          }
+          )}
           <div className="reserve-seat-btn" onClick={gotoReservationPage}>
             좌석 예약하기
           </div>
@@ -409,7 +404,11 @@ function Map() {
                 <br />
                 <div className="cafe-categories">
                   {visiterNum.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}
@@ -425,7 +424,11 @@ function Map() {
                 방문 목적
                 <div className="cafe-categories">
                   {purpose.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}
@@ -441,7 +444,11 @@ function Map() {
                 카테고리
                 <div className="cafe-categories">
                   {category.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}
@@ -457,7 +464,11 @@ function Map() {
                 분위기
                 <div className="cafe-categories">
                   {experience.map((thisData) => (
-                    <div id={thisData.id} key={thisData.id} className="category-item">
+                    <div
+                      id={thisData.id}
+                      key={thisData.id}
+                      className="category-item"
+                    >
                       {thisData.name}
                     </div>
                   ))}

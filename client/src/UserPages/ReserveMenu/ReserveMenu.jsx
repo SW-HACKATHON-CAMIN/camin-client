@@ -62,8 +62,8 @@ function ReserveMenu() {
     ownerPickItem.filter((item, i) => {
       return (
         ownerPickItem.findIndex((item2, j) => {
-          return item.id === item2.id;
-        }) === i
+          return item.id == item2.id;
+        }) == i
       );
     });
   }, [ownerPickItem]);
@@ -77,7 +77,7 @@ function ReserveMenu() {
   //사장님 픽이 있는 지 검증& 선택 수량 체크를 위한 로직
   const checkOwnerPick = () => {
     menuData.map((thisData) => {
-      if (!thisData.ownerPick === false) {
+      if (!thisData.ownerPick == false) {
         setIsPickItem(true);
         setOwnerPickItem((data) => [...data, thisData]);
 
@@ -100,7 +100,7 @@ function ReserveMenu() {
 
     //선택한 상품의 가격정보 받아오기
     menuData.map((thisData) => {
-      if (thisData.id === targetId) {
+      if (thisData.id == targetId) {
         targetPrice = thisData.price;
       }
     });
@@ -113,7 +113,7 @@ function ReserveMenu() {
     // })
 
     //담은 상품이 없는 경우(새로 생성)
-    if (!allItemList || allItemList === undefined) {
+    if (!allItemList || allItemList == undefined) {
       allItemList = [{ itemId: targetId, itemNum: 1, itemPrice: targetPrice }];
       //로컬에 저장
       localStorage.setItem("itemList", JSON.stringify(allItemList));
@@ -123,7 +123,7 @@ function ReserveMenu() {
     else {
       allItemList.map((thisData) => {
         //동일한 상품이 있는 경우 수량 갱신
-        if (thisData.itemId === targetId) {
+        if (thisData.itemId == targetId) {
           thisData.itemNum += 1;
           different = false;
         }
@@ -153,7 +153,7 @@ function ReserveMenu() {
 
     //선택한 상품의 가격정보 받아오기
     menuData.map((thisData) => {
-      if (thisData.id === targetId) {
+      if (thisData.id == targetId) {
         targetPrice = thisData.price;
       }
     });
@@ -166,8 +166,8 @@ function ReserveMenu() {
     else {
       allItemList.map((thisData) => {
         //동일한 상품이 있는 경우 수량 갱신
-        if (thisData.itemId === targetId) {
-          if (thisData.itemNum === 0) {
+        if (thisData.itemId == targetId) {
+          if (thisData.itemNum == 0) {
             return;
           }
           thisData.itemNum -= 1;
@@ -187,12 +187,12 @@ function ReserveMenu() {
     var allItemList = JSON.parse(localStorage.getItem("itemList"));
 
     //담은 상품이 없는 경우(새로 생성)
-    if (allItemList === undefined) {
+    if (allItemList == undefined) {
       return result;
     } else {
       allItemList.map((thisData) => {
         //동일한 상품이 있는 경우 수량 갱신
-        if (thisData.itemId === target) {
+        if (thisData.itemId == target) {
           result = thisData.itemNum;
         }
       });

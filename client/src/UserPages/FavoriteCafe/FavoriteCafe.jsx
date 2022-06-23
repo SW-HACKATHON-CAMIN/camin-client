@@ -1,28 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import "./FavoriteCafe.css";
 
 function FavoriteCafe() {
-  const [favoriteData, setFavoriteData] = useState([
-    {
-      id: 1,
-      infoImage: "/Assets/test.png",
-      cafeName: "오츠에스프레소1",
-      address: "서울특별시 마포구 독막로 14길 32",
-    },
-    {
-      id: 2,
-      infoImage: "/Assets/test.png",
-      cafeName: "오츠에스프레소2",
-      address: "서울특별시 마포구 독막로 14길 32",
-    },
-    {
-      id: 3,
-      infoImage: "/Assets/test.png",
-      cafeName: "오츠에스프레소3",
-      address: "서울특별시 마포구 독막로 14길 32",
-    },
-  ]);
+  const [favoriteData, setFavoriteData] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(true);
+
+  const handleSelectFavorite = () => {
+    setIsFavorite(true);
+    console.log("찜 완료");
+    // 찜하기 API 넣기
+    // axios
+    //   .post("/api/user/like", {
+    //     cafeId: 1,
+    //     userId: sessionStorage.getItem("userId"),
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   });
+  };
+  const handleCancelFavorite = () => {
+    setIsFavorite(false);
+    console.log("찜 해제");
+    // 찜해제 API 넣기
+    // axios
+    //   .delete("/api/user/like", {
+    //     cafeId: 1,
+    //     userId: sessionStorage.getItem("userId"),
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   });
+  };
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://118.67.133.82:8080/api/user/favorite?userId=${sessionStorage.getItem(
+          "userId"
+        )}`
+      )
+      .then(function (response) {
+        console.log(response);
+        setFavoriteData(response.data);
+      });
+  }, []);
+
   return (
     <>
       <div className="favorite-container">
@@ -30,11 +54,11 @@ function FavoriteCafe() {
         <div className="favorite-list">
           {favoriteData.map((list) => {
             return (
-              <div className="favorite-card">
+              <div className="favorite-card" key={list.id}>
                 <div>
                   <img
                     className="favorite-cafe-img"
-                    src={list.infoImage}
+                    src={list.mainIamge}
                     alt=""
                   />
                 </div>
@@ -43,10 +67,19 @@ function FavoriteCafe() {
                   <div className="favorite-cafe-address">{list.address}</div>
                 </div>
                 <div className="favorite-btn">
-                  <img
-                    src="/Assets/FavoriteSelectBtn/FavoriteSelected.png"
-                    alt=""
-                  />
+                  {isFavorite === true ? (
+                    <img
+                      src="/Assets/FavoriteSelectBtn/FavoriteSelected.png"
+                      alt=""
+                      onClick={handleCancelFavorite}
+                    />
+                  ) : (
+                    <img
+                      src="/Assets/FavoriteSelectBtn/FavoriteNotSelected.png"
+                      alt=""
+                      onClick={handleSelectFavorite}
+                    />
+                  )}
                 </div>
               </div>
             );
