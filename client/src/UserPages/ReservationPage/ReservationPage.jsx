@@ -9,6 +9,10 @@ function ReservationPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isOrderMenuSelected, setIsOrderMenuSelected] = useState(false);
 
+  const handleChangeSection = () => {
+    setIsOrderMenuSelected((isOrderMenuSelected) => !isOrderMenuSelected);
+  };
+
   return (
     <div className="reservationpage-wrapper">
       <div className="reservationpage-cafe-main-img">
@@ -51,6 +55,7 @@ function ReservationPage() {
                 ? "section-item section-selected"
                 : "section-item  section-not-selected"
             }
+            onClick={handleChangeSection}
           >
             좌석 예약
           </div>
@@ -60,6 +65,7 @@ function ReservationPage() {
                 ? "section-item  section-selected"
                 : "section-item  section-not-selected"
             }
+            onClick={handleChangeSection}
           >
             메뉴 선택
           </div>
