@@ -45,7 +45,14 @@ function ReserveSeat() {
   const selectedSeat = (id) => {
     console.log(id)
     setIsCardSelected(id);
+    keepSeat(id)
   };
+
+  //선택한 값을 장바구니에 저장
+  const keepSeat = (id) =>{
+    //로컬스토리지에 저장
+    localStorage.setItem("selectedSeat",id);
+  }
 
   const PrintSeat = () => {
     return(
@@ -63,7 +70,7 @@ function ReserveSeat() {
             >
             <div className="seat-img">
               <img src="/Assets/seattest.png" alt="" />
-            </div>
+            </div>S
             <div className="seat-info">
               <div className="seat-name">{seat.seatName}</div>
               <div className="seat-status">{seat.status}</div>
