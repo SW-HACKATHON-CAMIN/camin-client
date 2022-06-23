@@ -1,14 +1,26 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import axios from "axios";
 
 import "./ReserveMenu.css";
 
 function ReserveMenu() {
+  const [menuData, setMenuData] = useState([]);
+  const cafeId = 1;
+
+  useEffect(() => {
+    axios
+      .get(`/api/cafe/${cafeId}?userId=${sessionStorage.getItem("userId")}`)
+      .then(function (response) {
+        console.log(response.data.menus);
+        setMenuData(response.data.menus);
+      });
+  }, []);
+
   //사장님 픽 상품
   const [ownerPickItem, setOwnerPickItem] = useState([]);
   const [isPickItem, setIsPickItem] = useState(false);
@@ -17,44 +29,8 @@ function ReserveMenu() {
 
   const [modalShow, setModalShow] = React.useState(false);
 
-  const [menuData, setMenuData] = useState([
-    {
-      id: 1,
-      cafe: "오츠에스프레소",
-      name: "아메리카노",
-      price: 4000,
-      ownerPick: false,
-      menuImg: "/Assets/test.png",
-    },
-    {
-      id: 2,
-      cafe: "오츠에스프레소",
-      name: "카페라떼",
-      price: 4500,
-      ownerPick: false,
-      menuImg: "/Assets/test.png",
-    },
-    {
-      id: 3,
-      cafe: "오츠에스프레소",
-      name: "아인슈페너",
-      price: 5000,
-      ownerPick: true,
-      menuImg: "/Assets/test.png",
-    },
-    {
-      id: 4,
-      cafe: "오츠에스프레소",
-      name: "카라멜마끼아또",
-      price: 4500,
-      ownerPick: false,
-      menuImg: "/Assets/test.png",
-    },
-  ]);
-
   useEffect(() => {
     //API넣기
-
     checkOwnerPick();
   }, []);
 
@@ -200,6 +176,24 @@ function ReserveMenu() {
     return result;
   };
 
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    setTotalPrice(totalCharge());
+  }, [totalPrice]);
+
+  const totalCharge = () => {
+    //상품가격 조회
+    var allItemList = JSON.parse(localStorage.getItem("itemList"));
+    var total = 0;
+
+    allItemList.map((thisData) => {
+      var tmpNum = thisData.itemPrice;
+      total += tmpNum;
+    });
+    return total;
+  };
+
   //모달띄우기
   function OrderCheckModal(props) {
     const selectList = ["10분 뒤", "20분 뒤", "30분 뒤", "40분 뒤", "1시간 뒤"];
@@ -271,20 +265,6 @@ function ReserveMenu() {
     );
   }
 
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  const totalCharge = () => {
-    //상품가격 조회
-    var allItemList = JSON.parse(localStorage.getItem("itemList"));
-    var total = 0;
-
-    allItemList.map((thisData) => {
-      var tmpNum = thisData.itemPrice;
-      total += tmpNum;
-    });
-    return total;
-  };
-
   return (
     <div className="reserve-seat-container">
       <div>
@@ -292,7 +272,7 @@ function ReserveMenu() {
           return (
             <div className="menu-card">
               <div className="menu-img">
-                <img src={thisMenu.menuImg} alt={thisMenu.name} />
+                <img src={thisMenu.menuImage} alt="" />
               </div>
               <div className="menu-info">
                 <div className="menu-name">{thisMenu.name}</div>
