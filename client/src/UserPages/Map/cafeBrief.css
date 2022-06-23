@@ -1,0 +1,78 @@
+.frame{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr 2fr 3fr;
+    margin: 10px 10px 10px 10px;
+}
+
+.title{
+    grid-row-start:1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+
+.address{
+    grid-row-start:2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 2;
+
+    font-family: Noto Sans CJK KR;
+    font-size: 12px;
+    font-weight: 350;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: center;
+
+}
+
+.type{
+    grid-row-start:3;
+    grid-row-end: 4;
+    grid-column-start: 1;
+    grid-column-end: 2;
+
+  
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.25px;
+    text-align: center;
+
+}
+
+.reserve{
+    grid-row-start:2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 2;
+
+    color: #FFFFFF;
+}
+
+
+.mainImg{
+    grid-row-start:1;
+    grid-row-end: 4;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+#reserveButton{
+    background-color: #FF947A;
+}
+
+#typeBox{
+    border-radius: 10px;
+    box-shadow: 1px 1px black ;
+}
