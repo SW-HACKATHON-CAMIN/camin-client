@@ -34,8 +34,9 @@ function Map() {
 
   //실시간 지도 정보
   const [mapInfo, setMapInfo] = useState(false);
+  const [categoryId, setCategoryId] = useState(false);
 
-
+  let map = null;
 
   //실제 지도 관련 코드
 
@@ -47,149 +48,147 @@ function Map() {
 
   navigator.geolocation.clearWatch(watcherID); // 위치 갱신 그만 두기
 
-  useEffect(() => {
+  useEffect(()=>{
     const script = document.createElement("script");
 
-    //지도정보 임시 저장용
-    var thisMapInfo;
-
     let mapContainer = document.getElementById("map"), // 지도를 표시할 div
-      mapOption = {
-        center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-        level: 3, // 지도의 확대 레벨
-      };
+    mapOption = {
+      center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+      level: 3, // 지도의 확대 레벨
+    };
 
-    let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-    if (navigator.geolocation && !isFirst) {
-      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+    //이미 처음 렌더링을 한 이후의 경우
+    if(!isFirst === true){
       navigator.geolocation.getCurrentPosition(function (position) {
         let lat = position.coords.latitude, // 위도
           lon = position.coords.longitude; // 경도
+
 
         let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
-        displayMarker(locPosition, message);
-
-        setIsFirst(true);
+        // displayMarker(locPosition, message);
+        setLatitude(lat);
+        setLongitude(lon);
+        setIsFirst(false);
       });
-    } else if (navigator.geolocation && isFirst) {
-      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-      navigator.geolocation.getCurrentPosition(function (position) {
-        let lat = latitude, // 위도
-          lon = longitude; // 경도
+    }
 
-        console.log("lat:", latitude);
-        console.log("lon:", longitude);
+  },[])
 
-        let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-          message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+  //위도, 경도가 바뀌었을 때 지도의 정보 받아오기
+  useEffect(()=>{
+    
+    // let locPosition = new kakao.maps.LatLng(latitude, longitude);
+    
+    getCafeList(latitude, longitude, categoryId);//기본은 category = false
 
-        //지도 정보 받아오기
-        console.log("check")
-        thisMapInfo = getCafeList(lat,lon,false);
+  },[latitude, longitude])
 
-        // 마커와 인포윈도우를 표시합니다
-        displayMarker(locPosition, message);
-      });
-    } else {
-      // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-      let locPosition = new kakao.maps.LatLng(37.557015, 126.919835),
-        message = "geolocation을 사용할수 없어요..";
+  useEffect(()=>{
+    
+    if(!mapInfo){
+      return;
+    }
+    //마커 처리
+    mapInfo.forEach((el) => {
+      // 마커를 생성합니다
+      var tmpLat = el.latitude;
+      var tmpLog = el.longitude;
+
+
+
+      let thisLocPosition = new kakao.maps.LatLng(tmpLat.toFixed(6), tmpLog.toFixed(6));
+
+      var contents = el;
+
+      // 마커와 인포윈도우를 표시합니다
+      displayMarker(thisLocPosition, contents);
+    });
+  },[mapInfo])
+
+
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+
+  //   //지도정보 임시 저장용
+  //   var thisMapInfo;
+
+  //   let mapContainer = document.getElementById("map"), // 지도를 표시할 div
+  //     mapOption = {
+  //       center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+  //       level: 3, // 지도의 확대 레벨
+  //     };
+
+  //   map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+  //   // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+  //   if (navigator.geolocation && !isFirst) {
+  //     // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+  //     navigator.geolocation.getCurrentPosition(function (position) {
+  //       let lat = position.coords.latitude, // 위도
+  //         lon = position.coords.longitude; // 경도
+
+  //       let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+  //         message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
+
+  //       // 마커와 인포윈도우를 표시합니다
+  //       displayMarker(locPosition, message);
+
+  //       setIsFirst(true);
+  //     });
+  //   } else if (navigator.geolocation && isFirst) {
+  //     // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+  //     navigator.geolocation.getCurrentPosition(function (position) {
+  //       let lat = latitude, // 위도
+  //         lon = longitude; // 경도
+
+  //       console.log("lat:", latitude);
+  //       console.log("lon:", longitude);
+
+  //       let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+  //         message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+
+  //       //지도 정보 받아오기
+  //       console.log("check")
+  //       thisMapInfo = getCafeList(lat,lon,false);
+  //       console.log("thisMapInfo:",thisMapInfo)
+  //       // 마커와 인포윈도우를 표시합니다
+  //       // displayMarker(locPosition, thisMapInfo);
+  //     });
+  //   } else {
+  //     // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+
+  //     let locPosition = new kakao.maps.LatLng(37.557015, 126.919835),
+  //       message = "geolocation을 사용할수 없어요..";
       
-        //지도 정보 받아오기
-        thisMapInfo = getCafeList(37.557015, 126.919835,false);
+  //       //지도 정보 받아오기
+  //       thisMapInfo = getCafeList(37.557015, 126.919835,false);
+  //       console.log("thisMapInfo:",thisMapInfo)
+  //     // displayMarker(locPosition, thisMapInfo);
+  //   }
 
-      displayMarker(locPosition, message);
-    }
+  //   if(thisMapInfo != undefined){
+  //     console.log("thisMapInfo:",thisMapInfo)
+  //     //마커 처리
+  //     thisMapInfo.forEach((el) => {
+  //       // 마커를 생성합니다
+  //       let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude);
 
-    if(thisMapInfo != undefined){
-      console.log("thisMapInfo:",thisMapInfo)
-      //마커 처리
-      thisMapInfo.forEach((el) => {
-        // 마커를 생성합니다
-        let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude);
+  //       var contents = el;
 
-        var contents = el;
-
-        // 마커와 인포윈도우를 표시합니다
-        displayMarker(thisLocPosition, contents);
-      });
-    }
+  //       // 마커와 인포윈도우를 표시합니다
+  //       displayMarker(thisLocPosition, contents);
+  //     });
+  //   }
      
 
-     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-     function displayMarker(locPosition, contents) {
-      var imageSrc;
-
-      console.log('contents:',contents);
-
-      //혼잡도에 따른 마커 색 지정
-      if (contents.status === 0) {
-        imageSrc =
-          "https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png"; // 마커이미지의 주소입니다
-      } else if (contents.status === 1) {
-        imageSrc =
-          "https://user-images.githubusercontent.com/80206884/175188647-52f3890b-9e1e-4308-940d-533a61301561.png"; // 마커이미지의 주소입니다
-      } else if (contents.status === 2) {
-        imageSrc =
-          "https://user-images.githubusercontent.com/80206884/175188658-9b48de60-cdc2-4f89-8f36-c1c9d944147a.png"; // 마커이미지의 주소입니다
-      } else if (contents.status === 3) {
-        imageSrc =
-          "https://user-images.githubusercontent.com/80206884/175188642-b003f895-e8c7-4ccc-a0f6-82dc8f1aa7a9.png"; // 마커이미지의 주소입니다
-      } else {
-        imageSrc =
-          "https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png";
-      }
-      //좌석 혼잡도별 마커 이미지 생성
-
-      var imageSize = new kakao.maps.Size(30, 30), // 마커이미지의 크기입니다
-        imageOption = { offset: new kakao.maps.Point(15, 15) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
-      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-      var markerImage = new kakao.maps.MarkerImage(
-        imageSrc,
-        imageSize,
-        imageOption
-      );
-
-      // 마커를 생성합니다
-      let marker = new kakao.maps.Marker({
-        map: map,
-        position: locPosition,
-        clickable: true,
-        image: markerImage, // 마커이미지 설정
-      });
-
-      // let iwContent = contents.title, // 인포윈도우에 표시할 내용
-      //   iwRemoveable = true;
-
-      // // 인포윈도우를 생성합니다
-      // let infowindow = new kakao.maps.InfoWindow({
-      //   content: iwContent,
-      //   removable: iwRemoveable,
-      // });
-
-      // 마커에 클릭이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, "click", function () {
-        // 마커 위에 인포윈도우를 표시합니다
-        // infowindow.open(map, marker);
-        // alert(contents.type);
-        showCafeInfoPopup();
-        // cafeBrief(contents.title,"",contents.type,"","")
-      });
-
-      // 인포윈도우를 마커위에 표시합니다
-      // infowindow.open(map, marker);
-
-      // 지도 중심좌표를 접속위치로 변경합니다
-      map.setCenter(locPosition);
-    }
-  },[latitude, longitude])
+    
+  // },[latitude, longitude])
 
  
 
@@ -288,7 +287,8 @@ function Map() {
         (response) =>{
           setMapInfo(response.data);
           result = response.data;
-          console.log("response.data",response.data)
+          console.log("response.data",result)
+          return result;
         }
       ).catch(
         (error)=>{
@@ -301,7 +301,8 @@ function Map() {
         (response) =>{
           setMapInfo(response.data);
           result = response.data;
-          console.log("response.data",response.data)
+          console.log("response.data",result)
+          return result;
         }
         ).catch(
           (error)=>{
@@ -309,7 +310,86 @@ function Map() {
           }
         )
     }
-    return result;
+  }
+
+
+   // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+   function displayMarker(locPosition, contents) {
+    
+    var imageSrc;
+
+    console.log('contents:',contents);
+
+    const script = document.createElement("script");
+
+    let mapContainer = document.getElementById("map"), // 지도를 표시할 div
+    mapOption = {
+      center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+      level: 3, // 지도의 확대 레벨
+    };
+
+    map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    //혼잡도에 따른 마커 색 지정
+    if (contents.status == 0) {
+      imageSrc =
+        "https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png"; // 마커이미지의 주소입니다
+    } else if (contents.status == 1) {
+      imageSrc =
+        "https://user-images.githubusercontent.com/80206884/175188647-52f3890b-9e1e-4308-940d-533a61301561.png"; // 마커이미지의 주소입니다
+    } else if (contents.status == 2) {
+      imageSrc =
+        "https://user-images.githubusercontent.com/80206884/175188658-9b48de60-cdc2-4f89-8f36-c1c9d944147a.png"; // 마커이미지의 주소입니다
+    } else if (contents.status == 3) {
+      imageSrc =
+        "https://user-images.githubusercontent.com/80206884/175188642-b003f895-e8c7-4ccc-a0f6-82dc8f1aa7a9.png"; // 마커이미지의 주소입니다
+    } else {
+      imageSrc =
+        "https://user-images.githubusercontent.com/80206884/175188652-6db4e5cc-97eb-4564-a508-e38cb80d771c.png";
+    }
+    //좌석 혼잡도별 마커 이미지 생성
+
+    var imageSize = new kakao.maps.Size(30, 30), // 마커이미지의 크기입니다
+      imageOption = { offset: new kakao.maps.Point(15, 15) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage = new kakao.maps.MarkerImage(
+      imageSrc,
+      imageSize,
+      imageOption
+    );
+
+    // 마커를 생성합니다
+    let marker = new kakao.maps.Marker({
+      map: map,
+      position: locPosition,
+      clickable: true,
+      image: markerImage, // 마커이미지 설정
+    });
+
+    // let iwContent = contents.title, // 인포윈도우에 표시할 내용
+    //   iwRemoveable = true;
+
+    // // 인포윈도우를 생성합니다
+    // let infowindow = new kakao.maps.InfoWindow({
+    //   content: iwContent,
+    //   removable: iwRemoveable,
+    // });
+
+    // 마커에 클릭이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, "click", function () {
+      // 마커 위에 인포윈도우를 표시합니다
+      // infowindow.open(map, marker);
+      // alert(contents.type);
+      showCafeInfoPopup();
+      // cafeBrief(contents.title,"",contents.type,"","")
+    });
+
+    // 인포윈도우를 마커위에 표시합니다
+    // infowindow.open(map, marker);
+
+    // 지도 중심좌표를 접속위치로 변경합니다
+    map.setCenter(locPosition);
   }
 
 
