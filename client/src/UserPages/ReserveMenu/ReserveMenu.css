@@ -1,4 +1,4 @@
-.reserve-seat-container {
+.order-seat-container {
   position: absolute;
   left: 0%;
   right: 0%;
@@ -6,7 +6,7 @@
   margin: 0 10px;
   overflow: auto;
 }
-.seat-card {
+.menu-card {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,20 +18,20 @@
   background: #eee;
   border-radius: 10px;
 }
-.seat-info {
+.menu-info {
   margin-left: 10px;
 }
-.seat-img {
+.menu-img {
   padding-right: 30px;
 }
-.seat-name {
+.menu-name {
   font-weight: bold;
   padding-bottom: 10px;
 }
-.seat-status {
+.menu-status {
   font-size: 12px;
   padding-bottom: 10px;
 }
-.seat-text {
+.menu-text {
   font-size: 10px;
 }

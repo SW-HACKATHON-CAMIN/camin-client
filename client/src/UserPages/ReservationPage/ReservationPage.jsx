@@ -8,10 +8,19 @@ import "./ReservationPage.css";
 function ReservationPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isOrderMenuSelected, setIsOrderMenuSelected] = useState(false);
+  const [isReserveSeatSelected, setIsReserveSeatSelected] = useState(true);
 
-  const handleChangeSection = () => {
-    setIsOrderMenuSelected((isOrderMenuSelected) => !isOrderMenuSelected);
+  const handleOrderMenuSelect = () => {
+    setIsOrderMenuSelected(true)
+    setIsReserveSeatSelected(false)
+    //setIsOrderMenuSelected((isOrderMenuSelected) => !isOrderMenuSelected);
   };
+
+  const handleReserveSeatSelect = () => {
+    setIsReserveSeatSelected(true)
+    setIsOrderMenuSelected(false)
+    //setIsReserveSeatSelected((isReserveSeatSelected) => !isReserveSeatSelected);
+  }
 
   return (
     <div className="reservationpage-wrapper">
@@ -51,11 +60,11 @@ function ReservationPage() {
         <div className="section-bar">
           <div
             className={
-              !isOrderMenuSelected
+              isReserveSeatSelected
                 ? "section-item section-selected"
                 : "section-item  section-not-selected"
             }
-            onClick={handleChangeSection}
+            onClick={handleReserveSeatSelect}
           >
             좌석 예약
           </div>
@@ -65,14 +74,14 @@ function ReservationPage() {
                 ? "section-item  section-selected"
                 : "section-item  section-not-selected"
             }
-            onClick={handleChangeSection}
+            onClick={handleOrderMenuSelect}
           >
             메뉴 선택
           </div>
         </div>
         <div
           className={
-            !isOrderMenuSelected
+            isReserveSeatSelected
               ? "line line-selected"
               : "line line-not-selected"
           }
