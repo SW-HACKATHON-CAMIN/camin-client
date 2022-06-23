@@ -35,6 +35,11 @@ function Map() {
   //실시간 지도 정보
   const [mapInfo, setMapInfo] = useState(false);
 
+  const [categoryId, setCategoryId] = useState(false);
+
+  //선택된 좌표
+  const [selectedMarker, setSelectedMarker] = useState(false);
+
 
   //실제 지도 관련 코드
 
@@ -64,8 +69,8 @@ function Map() {
     if (navigator.geolocation && !isFirst) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(function (position) {
-        let lat = position.coords.latitude, // 위도
-          lon = position.coords.longitude; // 경도
+        let lat = 37.5578747542407, // 위도
+          lon = 126.927104943545; // 경도
 
         let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
@@ -88,7 +93,7 @@ function Map() {
           message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
 
         //지도 정보 받아오기
-        getCafeList(lat, lon, category);
+        getCafeList(lat, lon, categoryId);
 
         
 
@@ -100,49 +105,14 @@ function Map() {
 
       let locPosition = new kakao.maps.LatLng(37.5578747542407, 126.927104943545),
         message = "geolocation을 사용할수 없어요..";
-      
+
         //지도 정보 받아오기
-        getCafeList(37.5578747542407 , 126.927104943545, category);
+        getCafeList(37.5578747542407 , 126.927104943545, categoryId);
 
       displayMarker(locPosition, message);
     }
 
- 
 
-    const markerdata = [
-      {
-        cafeName: "카페1",
-        address: "제주1",
-        latitude: 33.450701,
-        longitude: 126.570567,
-        experience: ["조용한", "카페공부가능"],
-        status: 1,
-      },
-      {
-        cafeName: "카페2",
-        address: "제주2",
-        latitude: 33.450711,
-        longitude: 126.570667,
-        experience: ["활기찬", "카페공부가능"],
-        status: 1,
-      },
-      {
-        cafeName: "카페3",
-        address: "제주3",
-        latitude: 33.450601,
-        longitude: 126.570657,
-        experience: ["신비한", "카페공부가능"],
-        status: 2,
-      },
-      {
-        cafeName: "카페4",
-        address: "제주4",
-        latitude: 33.450701,
-        longitude: 126.57067,
-        experience: ["활기찬", "카페공부불가능"],
-        status: 1,
-      },
-    ];
     if(!mapInfo ===false){
       //마커 처리
       mapInfo.forEach((el) => {
@@ -150,17 +120,6 @@ function Map() {
         let thisLocPosition = new kakao.maps.LatLng(el.latitude, el.longitude);
 
         var contents = el;
-
-        // var thisMarker = new kakao.maps.Marker({
-        //   //마커가 표시 될 지도
-        //   map: map,
-        //   //마커가 표시 될 위치
-        //   position: thisLocPosition,
-        //   //마커에 hover시 나타날 title
-        //   title: el.title,
-
-        //   clickable: true,
-        // });
 
         // 마커와 인포윈도우를 표시합니다
         displayMarker(thisLocPosition, contents);
@@ -207,6 +166,7 @@ function Map() {
         position: locPosition,
         clickable: true,
         image: markerImage, // 마커이미지 설정
+        title: contents.id
       });
 
       // let iwContent = contents.title, // 인포윈도우에 표시할 내용
@@ -220,9 +180,7 @@ function Map() {
 
       // 마커에 클릭이벤트를 등록합니다
       kakao.maps.event.addListener(marker, "click", function () {
-        // 마커 위에 인포윈도우를 표시합니다
-        // infowindow.open(map, marker);
-        // alert(contents.type);
+        setSelectedMarker(contents.id)
         showCafeInfoPopup();
         // cafeBrief(contents.title,"",contents.type,"","")
       });
@@ -268,8 +226,14 @@ function Map() {
     });
   }, [openFilter]);
 
+
+  useEffect(()=>{
+    showCafeInfoPopup()
+  },[selectedMarker])
+
+
   const getCafeList = (latitude,longitude,categoryIds)=>{
-    var result = null;
+    var result ="";
     console.log(latitude,longitude,categoryIds)
 
     if(!categoryIds){
@@ -345,7 +309,7 @@ function Map() {
   };
 
   /**팝업 창*/
-  function CafeInfoPopup() {
+  function CafeInfoPopup(props) {
     //, cafeName, address, type, status, img API개발되면 추가하기
     const navigate = useNavigate();
 
@@ -357,6 +321,18 @@ function Map() {
       navigate("/reservation");
     };
 
+    // const PrintCategories = () =>{
+    //   for(var i = 0; i < mapInfo.length; i++){
+    //     if(mapInfo[i].id == selectedMarker){
+    //       for(var j = 0; j < mapInfo.categories.length; i++){
+    //         <div className="category-item">{mapInfo.categories[j].name}</div>
+    //       }
+    //     }
+    //   }
+    // }
+    console.log(selectedMarker)
+    console.log(mapInfo)
+
     return (
       <>
         <div
@@ -364,25 +340,37 @@ function Map() {
           onClick={cafeInfoClose}
         ></div>
         <div className={cafeInfoPopup ? "show-cafe-info" : "hide-cafe-info"}>
-          <div className="cafe-info-items">
-            <div className="cafe-name-img-wrap">
-              <div className="name-address-wrap">
-                <div className="cafe-name">오츠에스프레소</div>
-                <div className="cafe-address">
-                  서울특별시 마포구 독막로 14길 32
+          {
+            !mapInfo?
+            <></>:
+            <>
+            {
+            mapInfo.map((thisData)=>{
+              if(thisData.id == selectedMarker){
+                {
+                  console.log(thisData.cafeName)
+                }
+                <div className="cafe-info-items">
+                  <div className="cafe-name-img-wrap">
+                    <div className="name-address-wrap">
+                      <div className="cafe-name">{thisData.cafeName}</div>
+                      <div className="cafe-address">
+                        {thisData.address}
+                      </div>
+                      <div className="cafe-categories">
+                       {/* <PrintCategories/> */}
+                      </div>
+                    </div>
+                    <div className="cafe-img">
+                      <img src={thisData.mainImage}alt="" />
+                    </div>
+                  </div>
                 </div>
-                <div className="cafe-categories">
-                  <div className="category-item">혼자가기 적합</div>
-                  <div className="category-item">수다</div>
-                  <div className="category-item">베이커리</div>
-                  <div className="category-item">애견동반</div>
-                </div>
-              </div>
-              <div className="cafe-img">
-                <img src="/Assets/test.png" alt="" />
-              </div>
-            </div>
-          </div>
+              }
+            })
+          }
+            </>
+          }
           <div className="reserve-seat-btn" onClick={gotoReservationPage}>
             좌석 예약하기
           </div>
