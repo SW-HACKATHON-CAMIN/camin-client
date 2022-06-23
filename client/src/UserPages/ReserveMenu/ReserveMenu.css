@@ -3,7 +3,7 @@
   left: 0%;
   right: 0%;
   top: 80%;
-  margin: 0 10px;
+  margin: 10px 10px 10px 10px;
   overflow: auto;
 }
 .menu-card {
@@ -60,4 +60,22 @@
     top: 608px;
     background: #ffffff;
     border-radius: 10px;
+}
+
+.buttonStyle{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+
+.order-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 327px;
+  height: 56px;
+  background: #ff947a;
+  border-radius: 8px;
+  color: white;
+  margin: auto;
 }
