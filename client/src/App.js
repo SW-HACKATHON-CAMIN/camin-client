@@ -50,7 +50,7 @@ function App() {
               isLogin === true ? (
                 <MainLayout View={FavoriteCafe} Menu={"FavoriteCafe"} />
               ) : (
-                <Navigate replace to="/login" />
+                <MainLayout View={Login} />
               )
             }
           />
@@ -60,7 +60,7 @@ function App() {
               isLogin === true ? (
                 <MainLayout View={ReservationInfo} Menu={"ReservationInfo"} />
               ) : (
-                <Navigate replace to="/login" />
+                <MainLayout View={Login} />
               )
             }
           />
@@ -70,11 +70,20 @@ function App() {
               isLogin === true ? (
                 <MainLayout View={MyInfo} Menu={"MyInfo"} />
               ) : (
-                <Navigate replace to="/login" />
+                <MainLayout View={Login} />
               )
             }
           />
-          <Route path="/reservation" element={<Reservation />} />
+          <Route
+            path="/reservation"
+            element={
+              isLogin === true ? (
+                <Reservation />
+              ) : (
+                <MainLayout View={Login} />
+              )
+            }
+          />
           {/* AdminPages */}
           <Route path="/admin/cafeinfo" element={<CafeInfo />} />
           <Route path="/admin/cafemenu" element={<CafeMenu />} />
