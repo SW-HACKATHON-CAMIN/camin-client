@@ -55,14 +55,14 @@ function ReserveSeat() {
               <div className="seat-info">
                 <div className="seat-name">{seat.name}</div>
                 <div className="seat-status">
-                  {seat.status === "0" ? (
-                    <div>여유</div>
-                  ) : seat.status === "1" ? (
-                    <div>보통</div>
-                  ) : seat.status === "2" ? (
-                    <div>혼잡</div>
-                  ) : seat.status === "3" ? (
-                    <div>만석</div>
+                  {seat.status === 0 ? (
+                    <div style={{ color: "#2F80ED" }}>여유</div>
+                  ) : seat.status === 1 ? (
+                    <div style={{ color: "#27AE60" }}>보통</div>
+                  ) : seat.status === 2 ? (
+                    <div style={{ color: "#F2994A" }}>혼잡</div>
+                  ) : seat.status === 3 ? (
+                    <div style={{ color: "#EB5757" }}>만석</div>
                   ) : (
                     ""
                   )}
