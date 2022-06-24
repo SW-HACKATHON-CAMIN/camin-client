@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import ReserveSeat from "../ReserveSeat/ReserveSeat";
@@ -10,6 +10,17 @@ function ReservationPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isOrderMenuSelected, setIsOrderMenuSelected] = useState(false);
   const [isReserveSeatSelected, setIsReserveSeatSelected] = useState(true);
+
+  const [cafeData, setCafeData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/cafe/1?userId=${sessionStorage.getItem("userId")}`)
+      .then(function (response) {
+        console.log(response.data.categories[0].name);
+        setCafeData(response.data);
+      });
+  }, []);
 
   const handleOrderMenuSelect = () => {
     setIsOrderMenuSelected(true);
@@ -40,7 +51,7 @@ function ReservationPage() {
     setIsFavorite(false);
     console.log("찜 해제");
     // 찜해제 API 넣기
-        // axios
+    // axios
     //   .delete("/api/user/like", {
     //     cafeId: 1,
     //     userId: sessionStorage.getItem("userId"),
@@ -58,9 +69,9 @@ function ReservationPage() {
       <div className="reservationpage-cafe-info">
         <div className="reservationpage-name-address-favoritebtn-wrap">
           <div className="reservationpage-name-address-wrap">
-            <div className="reservationpage-cafe-name">오츠에스프레소</div>
+            <div className="reservationpage-cafe-name">{cafeData.cafeName}</div>
             <div className="reservationpage-cafe-address">
-              서울특별시 마포구 독막로 14길 32
+              {cafeData.address}
             </div>
           </div>
           <div className="reservationpage-favorite-select-btn">
@@ -80,6 +91,13 @@ function ReservationPage() {
           </div>
         </div>
         <div className="reservationpage-cafe-categories">
+          {/* {cafeData.categories.forEach((category) => {
+            return (
+              <div key={category.id} className="reservationpage-category-item">
+                {category.name}
+              </div>
+            );
+          })} */}
           <div className="reservationpage-category-item">혼자가기 적합</div>
           <div className="reservationpage-category-item">수다</div>
           <div className="reservationpage-category-item">베이커리</div>
