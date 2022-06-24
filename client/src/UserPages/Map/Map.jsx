@@ -50,6 +50,11 @@ function Map() {
 
   navigator.geolocation.clearWatch(watcherID); // 위치 갱신 그만 두기
 
+  useEffect(()=>{
+    getCafeList(37.5578747542407, 126.927104943545, categoryId)
+  },[])
+
+
   useEffect(() => {
     const script = document.createElement("script");
 
