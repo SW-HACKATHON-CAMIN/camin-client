@@ -238,6 +238,8 @@ function ReserveMenu() {
         .then(function (response) {
           if (response) {
             console.log(response);
+            localStorage.removeItem('itemList');
+            localStorage.removeItem('selectedSeat');
           }
         });
     };

@@ -93,8 +93,8 @@ function Map() {
         let lat = latitude, // 위도
           lon = longitude; // 경도
 
-        console.log("lat:", latitude);
-        console.log("lon:", longitude);
+        // console.log("lat:", latitude);
+        // console.log("lon:", longitude);
 
         let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
@@ -210,19 +210,19 @@ function Map() {
       for (let i = 0; i < response.data.length; i++) {
         if (response.data[i].type === 0) {
           visiterNumArr.push(response.data[i]);
-          console.log(response.data[i]);
+          // console.log(response.data[i]);
         }
         if (response.data[i].type === 1) {
           purposeArr.push(response.data[i]);
-          console.log(response.data[i]);
+          // console.log(response.data[i]);
         }
         if (response.data[i].type === 2) {
           categoryArr.push(response.data[i]);
-          console.log(response.data[i]);
+          // console.log(response.data[i]);
         }
         if (response.data[i].type === 3) {
           experienceArr.push(response.data[i]);
-          console.log(response.data[i]);
+          // console.log(response.data[i]);
         }
         setVisiterNum(visiterNumArr);
         setPurpose(purposeArr);
@@ -267,7 +267,7 @@ function Map() {
         .then((response) => {
           setMapInfo(response.data);
           result = response.data;
-          console.log("response.data", result);
+          // console.log("response.data", result);
           return result;
         })
         .catch((error) => {
@@ -283,7 +283,7 @@ function Map() {
         .then((response) => {
           setMapInfo(response.data);
           result = response.data;
-          console.log("response.data", result);
+          // console.log("response.data", result);
           return result;
         })
         .catch((error) => {
@@ -353,8 +353,8 @@ function Map() {
     //     }
     //   }
     // }
-    console.log(selectedMarker);
-    console.log(mapInfo);
+    // console.log(selectedMarker);
+    // console.log(mapInfo);
 
     return (
       <>
