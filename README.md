@@ -1,6 +1,6 @@
 # 카페의 민족 프론트 
 
-<a href="https://www.notion.so/e702ff6775bf498d9180e38a88ddc181">카페의 민족 NOTION 회의 일지 및 자료 모음</a> 👈Notion link
+<a href="https://honorable-tune-44f.notion.site/e702ff6775bf498d9180e38a88ddc181">카페의 민족 NOTION 회의 일지 및 자료 모음</a> 👈Notion link
 
 다양한 목적으로 카페를 방문했다가<br>
 자리가 없어서 되돌아 나온 적 있지 않으셨나요?<br>
